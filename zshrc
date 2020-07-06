@@ -15,7 +15,8 @@ unalias rm # No interactive rm by default (brought by plugins/common-aliases)
 
 # Load rbenv if installed (To manage your Ruby versions)
 export PATH="${HOME}/.rbenv/bin:${PATH}" # Needed for Linux/WSL
-type -a rbenv > /dev/null && eval "$(rbenv init -)"
+type -a rbenv > /dev/null && eval "$(rbenv init - zsh)"
+
 
 # Load pyenv (To manage your Python versions)
 export PATH="${HOME}/.pyenv/bin:${PATH}" # Needed for Linux/WSL
@@ -41,3 +42,4 @@ pyenv activate lewagon 2>/dev/null && echo "🐍 Loading 'lewagon' virtualenv"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export BUNDLER_EDITOR="'/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl' -a"
+COMPLETION_WAITING_DOTS="true"
