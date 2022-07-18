@@ -1,0 +1,26 @@
+[user]
+	name = Nik Visenko
+	email = nik@nested.com
+	initials = nv
+[alias]
+	br = branch --sort=-committerdate
+	co = checkout
+	log = git log --graph --decorate --pretty
+	append = commit --amend --no-edit
+	last = log -1 HEAD
+	rb = rebase -i origin/master
+
+[push]
+	default = current
+[format]
+	pretty = tformat:%C(green)%h%C(reset) %C(bold blue)%ar%C(reset) %C(yellow)%an%C(reset) %C(bold red)%d%C(reset) %s\
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[core]
+	excludesfile = /Users/nikvisenko/.gitignore
+[web]
+	browser = open

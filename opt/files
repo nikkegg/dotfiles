@@ -1,4 +1,5 @@
 configs/.gitconfig .gitconfig
 configs/.gitignore .gitignore
-configs/.bash_profile .bash_profile
 configs/.vimrc .vimrc
+configs/.tmux.conf .tmux.conf
+configs/.zshrc .zshrc
