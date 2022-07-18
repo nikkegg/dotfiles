@@ -85,6 +85,16 @@ install_homebrew() {
   && _success "Installed Homebrew"
 }
 
+install_oh_my_zsh() {
+  _process "→ Installing Oh-My-Zsh"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+  _process "→ Running brew doctor"
+  brew doctor
+  [[ $? ]] \
+  && _success "Installed Oh-My-Zsh"
+}
+
 install_node() {
   if ! type -P 'npm' &> /dev/null; then
     _process "→ Installing node"
