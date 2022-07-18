@@ -238,6 +238,9 @@ let g:lightline.component_type = {
 \   'coc_info'         : 'tabsel',
 \   'coc_hint'         : 'middle',
 \ }
+
+" custom path to coc-settings fulle
+let g:coc_config_home = './coc-settings.json'
 augroup update_status_line
   autocmd!
   autocmd User CocDiagnosticChange call lightline#update()
