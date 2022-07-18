@@ -76,6 +76,9 @@ link_dotfiles() {
 }
 
 install_homebrew() {
+  
+  if ! command -v brew &> /dev/null
+  then
   _process "→ Installing Homebrew"
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
@@ -83,6 +86,9 @@ install_homebrew() {
   brew doctor
   [[ $? ]] \
   && _success "Installed Homebrew"
+  else
+    echo "lalal"
+  fi
 }
 
 install_oh_my_zsh() {
