@@ -86,9 +86,12 @@ install_homebrew() {
   brew doctor
   [[ $? ]] \
   && _success "Installed Homebrew"
-  else
-    echo "lalal"
   fi
+}
+
+install_vim_plug() {
+   /bin/bash -c "$(curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)"
 }
 
 install_oh_my_zsh() {
@@ -130,7 +133,8 @@ install_formulae() {
     brew tap homebrew/cask-versions
     brew tap homebrew/cask-drivers
     brew tap vitorgalvao/tiny-scripts
-
+    brew tap homebrew/cask-fonts
+    brew install --cask font-hack-nerd-font
     # Store IFS within a temp variable
     OIFS=$IFS
 
@@ -186,11 +190,13 @@ setup_git_authorship() {
 
 install() {
   download_dotfiles
+  install_oh_my_zsh
   link_dotfiles
   install_homebrew
   install_node
   install_formulae
   setup_git_authorship
+  install_vim_plug
 }
 
 install
