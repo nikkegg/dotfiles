@@ -188,7 +188,7 @@ augroup format_json
   autocmd BufRead,BufNewFile tsconfig.json set filetype=jsonc
 augroup END
 """ Custom path to coc-settings fulle
-let g:coc_config_home = '~/coc-settings.json'
+let g:coc_config_home = 'usr/local/opt/dotfiles/configs/'
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
 function! CocCurrentFunction()

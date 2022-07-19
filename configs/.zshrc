@@ -21,8 +21,6 @@ plugins=(zsh-vi-mode gitfast last-working-dir common-aliases)
 
 # Sources
 source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 source $ZSH/oh-my-zsh.sh
 # Aliases
 unalias rm

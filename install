@@ -96,7 +96,7 @@ install_vim_plug() {
 
 install_oh_my_zsh() {
   _process "→ Installing Oh-My-Zsh"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 
   [[ $? ]] \
   && _success "Installed Oh-My-Zsh"

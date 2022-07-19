@@ -4,4 +4,3 @@ configs/.vimrc .vimrc
 configs/.tmux.conf .tmux.conf
 configs/.zshrc .zshrc
 configs/.fzf.zsh .fzf.zsh
-configs/coc-settings.json coc-settings.json
