@@ -191,12 +191,12 @@ setup_git_authorship() {
 install() {
   download_dotfiles
   link_dotfiles
-  install_oh_my_zsh
   install_homebrew
   install_node
   install_formulae
   setup_git_authorship
   install_vim_plug
+  install_oh_my_zsh
 }
 
 install
