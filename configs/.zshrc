@@ -8,7 +8,7 @@ ZVM_VI_ESCAPE_BINDKEY=jk
 EDITOR='vim'
 MOST_EDITOR='vim'
 # Exports
-export ZSH="/Users/nikvisenko/.oh-my-zsh"
+export ZSH="~/.oh-my-zsh"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export HOMEBREW_NO_ANALYTICS=1
@@ -34,7 +34,7 @@ alias ga='git add -p'
 alias ..='cd ..'
 alias gfp='git push --force-with-lease'
 alias fhub='GITHUB_TOKEN=TOEN hub'
-alias zshrc='vim $HOME/.zshrc'
+alias zshrc='vim /usr/local/opt/dotfiles/.zshrc'
 alias tm='tmux'
 # FZF
 alias fzf="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
