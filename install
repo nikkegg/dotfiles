@@ -96,7 +96,7 @@ install_vim_plug() {
 
 install_oh_my_zsh() {
   _process "→ Installing Oh-My-Zsh"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 
   _process "→ Running brew doctor"
   brew doctor
@@ -190,8 +190,8 @@ setup_git_authorship() {
 
 install() {
   download_dotfiles
-  install_oh_my_zsh
   link_dotfiles
+  install_oh_my_zsh
   install_homebrew
   install_node
   install_formulae

@@ -187,6 +187,8 @@ augroup format_json
   autocmd!
   autocmd BufRead,BufNewFile tsconfig.json set filetype=jsonc
 augroup END
+""" Custom path to coc-settings fulle
+let g:coc_config_home = '~/coc-settings.json'
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
 function! CocCurrentFunction()
@@ -239,8 +241,6 @@ let g:lightline.component_type = {
 \   'coc_hint'         : 'middle',
 \ }
 
-" custom path to coc-settings fulle
-let g:coc_config_home = './coc-settings.json'
 augroup update_status_line
   autocmd!
   autocmd User CocDiagnosticChange call lightline#update()
