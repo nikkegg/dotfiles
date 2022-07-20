@@ -35,8 +35,8 @@ alias zshrc='vim /usr/local/opt/dotfiles/configs/.zshrc'
 alias configs='vim /usr/local/opt/dotfiles'
 alias tm='tmux'
 # FZF
-alias fzf="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
+export FZF_DEFAULT_OPTS="--preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
 
 weather () {
     curl "https://wttr.in/${1}"
