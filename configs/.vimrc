@@ -326,8 +326,8 @@ augroup END
 :nnoremap <leader>R :Grep <c-r>=expand("<cword>")<cr><cr><cr>:cfdo %s/<c-r>=expand("<cword>")<cr>//ge \| cclose \| wa!<C-Left><C-Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 :nnoremap <leader>cc :cclose<cr>
 :nnoremap <leader>d dd
-:nnoremap <leader>ev :vsplit $MYVIMRC<cr> 
-:nnoremap <leader>sv :source $MYVIMRC<cr>
+:nnoremap <leader>ev :vsplit /usr/local/opt/dotfiles/configs/.vimrc<cr>
+:nnoremap <leader>sv :source /usr/local/opt/dotfiles/configs/.vimrc<cr>
 :inoremap <leader>' <esc>viw<esc>a"<esc>bi"<esc>leli<Right><Space>
 "Opens Fern filetree
 :nnoremap <silent> <Leader>f :Fern . -drawer -reveal=% -toggle -width=35<CR><C-w>=

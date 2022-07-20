@@ -32,7 +32,7 @@ alias ga='git add -p'
 alias ..='cd ..'
 alias gfp='git push --force-with-lease'
 alias fhub='GITHUB_TOKEN=TOEN hub'
-alias zshrc='vim /usr/local/opt/dotfiles/.zshrc'
+alias zshrc='vim /usr/local/opt/dotfiles/configs/.zshrc'
 alias tm='tmux'
 # FZF
 alias fzf="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
