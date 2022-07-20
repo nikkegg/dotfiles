@@ -14,3 +14,9 @@ git remote add origin git@github.com:nikkegg/dotfiles.git
 git reset --hard origin/main
 ```
 
+### TO-DO
+
+Update coc-settings.json file for vim, to make coc install all needed extensions rather than doing this by hand
+Add a script to install elixir language server, rather than doing it by hand
+
+
