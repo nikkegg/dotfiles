@@ -14,7 +14,7 @@ export LC_ALL=en_US.UTF-8
 export HOMEBREW_NO_ANALYTICS=1
 export PAGER='most'
 # Plugins
-plugins=(zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
+plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
 
 # ASDF path config
 . $(brew --prefix asdf)/asdf.sh
@@ -37,6 +37,24 @@ alias tm='tmux'
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
 export FZF_DEFAULT_OPTS="--preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
+export FZF_CTRL_R_OPTS="--preview=''"
+export FZF_ALT_C_OPTS="--preview='tree -C {} | head -200'"
+
+# This pipes output of z command (most commonly visited directories to fzf
+j() {
+    [ $# -gt 0 ] && z "$*" && return
+    cd "$(z -l 2>&1 | fzf --preview '' --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}
+
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    *)            fzf "$@" ;;
+  esac
+}
 
 weather () {
     curl "https://wttr.in/${1}"
