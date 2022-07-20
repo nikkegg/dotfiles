@@ -14,13 +14,12 @@ export LC_ALL=en_US.UTF-8
 export HOMEBREW_NO_ANALYTICS=1
 export PAGER='most'
 # Plugins
-plugins=(zsh-vi-mode gitfast last-working-dir common-aliases)
+plugins=(zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
 
 # ASDF path config
 . $(brew --prefix asdf)/asdf.sh
 
 # Sources
-source ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source $ZSH/oh-my-zsh.sh
 # Aliases
 unalias rm
