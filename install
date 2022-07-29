@@ -138,7 +138,7 @@ install_formulae() {
     brew tap vitorgalvao/tiny-scripts
     brew tap homebrew/cask-fonts
     brew install --cask font-hack-nerd-font
-    brew install --cask font-fira-code
+    brew install --cask font-fira-code-nerd-font
     # Store IFS within a temp variable
     OIFS=$IFS
 

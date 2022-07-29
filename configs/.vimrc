@@ -16,7 +16,6 @@ call plug#begin()
   Plug 'haya14busa/is.vim'
   Plug 'sheerun/vim-polyglot'
   Plug 'embark-theme/vim', { 'as': 'embark', 'branch': 'main' } 
-  Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   Plug 'itchyny/lightline.vim'
   Plug 'tmux-plugins/vim-tmux'
   Plug 'vim-test/vim-test'
@@ -28,7 +27,6 @@ call plug#begin()
   Plug 'zivyangll/git-blame.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
-  Plug 'tpope/vim-repeat' 
   Plug 'tpope/vim-repeat' 
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
@@ -278,8 +276,7 @@ set cmdheight=2
 set updatetime=300
 set shortmess+=c
 syntax on
-let g:tokyonight_italic_keywords = "false"
-let g:tokyonight_style = "storm"
+let g:tokyonight_style = 'night'
 colorscheme tokyonight
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
