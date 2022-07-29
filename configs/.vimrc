@@ -383,6 +383,14 @@ let g:tmux_navigator_no_mappings = 1
 :nnoremap <silent> gd <Plug>(coc-definition)
 :nnoremap <silent> gdv :call CocAction('jumpDefinition', 'vsplit')<cr>
 """"""""""""""""""""""""
+"  Custom functions  "
+""""""""""""""""""""""""
+"" CD into current working directory
+" this is use on configs start-up to switch root directory to dotfiles
+function CdPWD()
+  :cd %:p:h
+endfunction
+""""""""""""""""""""""""
 "  Custom folding  "
 """"""""""""""""""""""""
 " Bindings
