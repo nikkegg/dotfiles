@@ -31,7 +31,7 @@ alias ga='git add -p'
 alias ..='cd ..'
 alias gfp='git push --force-with-lease'
 alias fhub='GITHUB_TOKEN=TOEN hub'
-alias configs='vim -c "call CdPWD()" /usr/local/opt/dotfiles/configs/.zshrc'
+alias configs='vim -c "call MakeRoot()" /usr/local/opt/dotfiles/configs/.zshrc'
 alias tm='tmux'
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"

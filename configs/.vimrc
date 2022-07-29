@@ -16,6 +16,7 @@ call plug#begin()
   Plug 'haya14busa/is.vim'
   Plug 'sheerun/vim-polyglot'
   Plug 'embark-theme/vim', { 'as': 'embark', 'branch': 'main' } 
+  Plug 'folke/tokyonight.nvim', { 'branch': 'main' }
   Plug 'itchyny/lightline.vim'
   Plug 'tmux-plugins/vim-tmux'
   Plug 'vim-test/vim-test'
@@ -216,7 +217,7 @@ endfunction
   endfunction
 
 let g:lightline = {
-  \ 'colorscheme': 'embark',
+  \ 'colorscheme': 'tokyonight',
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste' ],
 	\             [ 'readonly', 'filename', 'modified', 'coc_error', 'coc_warning', 'coc_hint', 'coc_info' ] ],
@@ -277,7 +278,9 @@ set cmdheight=2
 set updatetime=300
 set shortmess+=c
 syntax on
-colorscheme embark
+let g:tokyonight_italic_keywords = "false"
+let g:tokyonight_style = "storm"
+colorscheme tokyonight
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 set autoindent
@@ -385,9 +388,9 @@ let g:tmux_navigator_no_mappings = 1
 """"""""""""""""""""""""
 "  Custom functions  "
 """"""""""""""""""""""""
-"" CD into current working directory
-" this is use on configs start-up to switch root directory to dotfiles
-function CdPWD()
+"" Make current dir root
+" Use with configs alias in zshrc
+function! MakeRoot() 
   :cd %:p:h
 endfunction
 """"""""""""""""""""""""
