@@ -164,12 +164,12 @@ augroup CocSymbolHighlight
 augroup END
 
 """ Hover
-nnoremap <silent> KO :call ShowDocumentation()<CR>
+nnoremap <silent> SD :call ShowDocumentation()<CR>
 function! ShowDocumentation()
   if CocAction('hasProvider', 'hover')
     call CocActionAsync('doHover')
   else
-    call feedkeys('KO', 'in')
+    call feedkeys('SD', 'in')
   endif
 endfunction
 nnoremap <silent><space>d :call CocAction('jumpDefinition', v:false)<CR>
@@ -351,16 +351,19 @@ nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
 xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 "" Rebinds
 :inoremap jk <esc>
-:vnoremap jk <esc> 
 :nnoremap <CR> o<esc>
+:nnoremap <silent> j gj
+:nnoremap <silent> k gk
+:nnoremap <silent> 0 g0
+:nnoremap <silent> $ g$
 " Copy current buffer's path
 :nmap <silent> <leader>cpa :let @+ = expand("%")<CR>
 "" Split management
 " This mappings allow to move through vertical splits and tmux splits
 let g:tmux_navigator_no_mappings = 1
 :nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
-:nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 :nnoremap <silent> <C-k> :TmuxNavigateUp<cr>
+:nnoremap <silent> <C-j> :TmuxNavigateDown<cr>
 :nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
 :nnoremap <silent> <C-\> :TmuxNavigatePrevious<cr>
 :nnoremap <silent> <C-v> :vsplit<cr>
