@@ -276,7 +276,7 @@ set cmdheight=2
 set updatetime=300
 set shortmess+=c
 syntax on
-let g:tokyonight_style = 'night'
+let g:tokyonight_style = 'storm'
 colorscheme tokyonight
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
@@ -294,7 +294,9 @@ set laststatus=2
 if has('nvim') || has('termguicolors')
   set termguicolors
 endif
-
+" Folding
+set foldmethod=syntax
+set foldlevel=99
 "" Temporary Grep whilst I am figuring out fzf
 set grepprg=rg\ --vimgrep
 
