@@ -5,6 +5,8 @@
 call plug#begin()
   Plug 'ghifarit53/tokyonight-vim'
   Plug 'lambdalisue/fern.vim'
+  " Only show relative line number in active buffer
+  Plug 'myusuf3/numbers.vim'
   Plug 'lambdalisue/nerdfont.vim'
   Plug 'lambdalisue/fern-renderer-nerdfont.vim'
   Plug 'lambdalisue/fern-git-status.vim'
@@ -262,7 +264,9 @@ cnoreabbrev <expr> grb (getcmdtype() ==# ':' && getcmdline() ==# 'grb')  ? 'G re
 cnoreabbrev <expr> ga (getcmdtype() ==# ':' && getcmdline() ==# 'ga')  ? 'G add --patch' : 'ga'
 cnoreabbrev <expr> gc (getcmdtype() ==# ':' && getcmdline() ==# 'gc')  ? 'G commit' : 'ga'
 cnoreabbrev <expr> stash (getcmdtype() ==# ':' && getcmdline() ==# 'stash')  ? 'G stash' : 'stash'
-"" Command mode aliases to mirror .gitconfig
+"" Number
+let g:numbers_exclude = ['startify', 'vimshell', 'fern']
+
 
 """""""""""""""""""""""
 "  General settings  "
