@@ -297,6 +297,12 @@ endif
 " Folding
 set foldmethod=syntax
 set foldlevel=99
+" Fold verything if opening .vimrc
+augroup FoldVimrc
+  autocmd!
+  autocmd BufEnter .vimrc setl foldlevel=0
+augroup END
+
 "" Temporary Grep whilst I am figuring out fzf
 set grepprg=rg\ --vimgrep
 
@@ -391,6 +397,7 @@ let g:tmux_navigator_no_mappings = 1
 " Use with configs alias in zshrc
 function! MakeRoot() 
   :cd %:p:h
+  :setl foldlevel=0
 endfunction
 """"""""""""""""""""""""
 "  Custom folding  "
