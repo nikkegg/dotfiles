@@ -1,9 +1,9 @@
 """"""""""""""""""""""""
 "  Plugins  "
 """"""""""""""""""""""""
-
 call plug#begin()
   Plug 'ghifarit53/tokyonight-vim'
+  Plug 'vim-test/vim-test'
   Plug 'lambdalisue/fern.vim'
   " Only show relative line number in active buffer
   Plug 'myusuf3/numbers.vim'
@@ -16,6 +16,7 @@ call plug#begin()
   Plug 'nelstrom/vim-visual-star-search'
   " Automatically clear search highlights after you move your cursor.
   Plug 'haya14busa/is.vim'
+  Plug 'unblevable/quick-scope'
   Plug 'sheerun/vim-polyglot'
   Plug 'embark-theme/vim', { 'as': 'embark', 'branch': 'main' } 
   Plug 'itchyny/lightline.vim'
@@ -266,8 +267,14 @@ cnoreabbrev <expr> gc (getcmdtype() ==# ':' && getcmdline() ==# 'gc')  ? 'G comm
 cnoreabbrev <expr> stash (getcmdtype() ==# ':' && getcmdline() ==# 'stash')  ? 'G stash' : 'stash'
 "" Number
 let g:numbers_exclude = ['startify', 'vimshell', 'fern']
-
-
+"" Quickscope
+let g:qs_highlight_on_keys = ['t','T','f','F']
+let g:qs_max_chars=150
+augroup qs_colors
+  autocmd!
+  autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
+  autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
+augroup END
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
@@ -368,6 +375,8 @@ xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 :nnoremap <silent> k gk
 :nnoremap <silent> 0 g0
 :nnoremap <silent> $ g$
+:nnoremap <silent> 0 ^
+:nnoremap <silent> ^ 0
 " Copy current buffer's path
 :nmap <silent> <leader>cpa :let @+ = expand("%")<CR>
 "" Split management
