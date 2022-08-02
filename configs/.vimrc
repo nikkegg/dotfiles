@@ -5,6 +5,7 @@ call plug#begin()
   Plug 'ghifarit53/tokyonight-vim'
   Plug 'vim-test/vim-test'
   Plug 'lambdalisue/fern.vim'
+  Plug 'josa42/vim-lightline-coc'
   " Only show relative line number in active buffer
   Plug 'myusuf3/numbers.vim'
   Plug 'lambdalisue/nerdfont.vim'
