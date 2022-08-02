@@ -194,6 +194,14 @@ augroup END
 let g:coc_config_home = '/usr/local/opt/dotfiles/configs/'
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
+" let g:lightline = {
+  " \   'active': {
+  " \     'left': [[  'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok' ], [ 'coc_status'  ]]
+  " \   }
+  " \ }
+
+" register compoments:
+" call lightline#coc#register()
 function! CocCurrentFunction()
     return get(b:, 'coc_current_function', '')
 endfunction
