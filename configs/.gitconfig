@@ -24,3 +24,5 @@
 	excludesfile = /Users/nikvisenko/.gitignore
 [web]
 	browser = open
+[github]
+	token = echo $GITHUB_TOKEN
