@@ -8,7 +8,7 @@ ZVM_VI_ESCAPE_BINDKEY=jk
 EDITOR='vim'
 MOST_EDITOR='vim'
 # Exports
-export ZSH="~/.oh-my-zsh"
+export ZSH="${HOME}/.oh-my-zsh"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export HOMEBREW_NO_ANALYTICS=1
@@ -22,7 +22,6 @@ plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
 . $(brew --prefix asdf)/asdf.sh
 
 # Sources
-source $ZSH/oh-my-zsh.sh
 # Aliases
 unalias rm
 alias vim="vim -S ~/.vimrc"
@@ -33,7 +32,7 @@ alias ga='git add -p'
 alias ..='cd ..'
 alias gfp='git push --force-with-lease'
 alias fhub='GITHUB_TOKEN=TOEN hub'
-alias configs='vim -c "call MakeRoot()" /usr/local/opt/dotfiles/configs/.zshrc'
+alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
@@ -77,4 +76,6 @@ function integrate_zsh_vi_mode_with_fzf() {
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
   bindkey -s '^e' 'vim $(fzf)\n'
 } 
+
 zvm_after_init_commands+=(integrate_zsh_vi_mode_with_fzf)
+source $ZSH
