@@ -13,6 +13,9 @@ git init
 git remote add origin git@github.com:nikkegg/dotfiles.git
 git reset --hard origin/main
 ```
+### ENV variables
+
+I keep all of my sensitive env varibales in .zshenv
 
 ### TO-DO
 
