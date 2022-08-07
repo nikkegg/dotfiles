@@ -11,10 +11,11 @@ MOST_EDITOR='vim'
 export ZSH="${HOME}/.oh-my-zsh"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-export HOMEBREW_NO_ANALYTICS=1
 export PAGER='most'
+# Homebrew
 # Make homebrew work on Apple Silicone
 eval "$(/opt/homebrew/bin/brew shellenv)"
+export HOMEBREW_NO_ANALYTICS=1
 # Plugins
 plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
 
