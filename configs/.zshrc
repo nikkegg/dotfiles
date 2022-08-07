@@ -18,10 +18,6 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Plugins
 plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
 
-# ASDF path config
-. $(brew --prefix asdf)/asdf.sh
-
-# Sources
 # Aliases
 alias vim="vim -S ~/.vimrc"
 alias gst='git status'
@@ -77,3 +73,5 @@ function integrate_zsh_vi_mode_with_fzf() {
 
 zvm_after_init_commands+=(integrate_zsh_vi_mode_with_fzf)
 source "$ZSH/oh-my-zsh.sh"
+# ASDF path config. Needs to be added after oh-my-zsh is sourced
+. $(brew --prefix asdf)/asdf.sh
