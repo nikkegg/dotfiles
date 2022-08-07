@@ -31,7 +31,7 @@ alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
-export FZF_DEFAULT_OPTS="--preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
+# export FZF_DEFAULT_OPTS="--preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
 export FZF_CTRL_R_OPTS="--preview=''"
 export FZF_ALT_C_OPTS="--preview='tree -C {} | head -200'"
 

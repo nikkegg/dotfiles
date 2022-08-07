@@ -268,7 +268,7 @@ command! -bang -nargs=* Rg
 "" Vim-fugitive
 cnoreabbrev <expr> gst (getcmdtype() ==# ':' && getcmdline() ==# 'gst')  ? 'G' : 'gst'
 cnoreabbrev <expr> gfp (getcmdtype() ==# ':' && getcmdline() ==# 'gfp')  ? 'G push --force-with-lease' : 'gfp'
-cnoreabbrev <expr> gp (getcmdtype() ==# ':' && getcmdline() ==# 'gfp')  ? 'G push' : 'gp'
+cnoreabbrev <expr> gp (getcmdtype() ==# ':' && getcmdline() ==# 'gp')  ? 'G push' : 'gp'
 cnoreabbrev <expr> gpull (getcmdtype() ==# ':' && getcmdline() ==# 'gpull')  ? 'G pull' : 'gpull'
 cnoreabbrev <expr> grb (getcmdtype() ==# ':' && getcmdline() ==# 'grb')  ? 'G rebase -i origin/master' : 'grb'
 cnoreabbrev <expr> ga (getcmdtype() ==# ':' && getcmdline() ==# 'ga')  ? 'G add --patch' : 'ga'
