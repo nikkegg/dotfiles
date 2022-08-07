@@ -23,7 +23,6 @@ plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
 
 # Sources
 # Aliases
-unalias rm
 alias vim="vim -S ~/.vimrc"
 alias gst='git status'
 alias gc='git commit'
@@ -68,7 +67,6 @@ function vi-yank-xclip {
    echo "$CUTBUFFER" | pbcopy
 }
 
-. /usr/local/opt/asdf/libexec/asdf.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 #Below stop zsh-vi-mode conflicting with fzf bindings
@@ -78,4 +76,4 @@ function integrate_zsh_vi_mode_with_fzf() {
 } 
 
 zvm_after_init_commands+=(integrate_zsh_vi_mode_with_fzf)
-source $ZSH
+source "$ZSH/oh-my-zsh.sh"
