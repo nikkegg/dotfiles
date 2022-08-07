@@ -4,7 +4,7 @@ GITHUB_USER="nikkegg"
 GITHUB_REPO="dotfiles"
 USER_GIT_AUTHOR_NAME="nikkegg"
 USER_GIT_AUTHOR_EMAIL="cereshnia@gmail.com"
-DIR="/usr/local/opt/${GITHUB_REPO}"
+DIR="~/${GITHUB_REPO}"
 
 _process() {
     echo "$(date) PROCESSING:  $@" >> $LOG
