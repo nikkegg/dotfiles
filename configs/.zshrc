@@ -17,7 +17,7 @@ export PAGER='most'
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_NO_ANALYTICS=1
 # Plugins
-plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting)
+plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions)
 
 # Aliases
 alias vim="vim -S ~/.vimrc"
