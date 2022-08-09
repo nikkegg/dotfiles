@@ -31,6 +31,7 @@ alias git='hub'
 alias f="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
 alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'
+alias db='psql -d postgres://postgres:changeme@localhost:5432/appdb'
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
 export FZF_CTRL_R_OPTS="--preview=''"

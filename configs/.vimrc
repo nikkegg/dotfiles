@@ -12,6 +12,7 @@ call plug#begin()
   Plug 'lambdalisue/fern-renderer-nerdfont.vim'
   Plug 'lambdalisue/fern-git-status.vim'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " Modify * to also work with visual selections.
   Plug 'nelstrom/vim-visual-star-search'
@@ -35,7 +36,6 @@ call plug#begin()
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
   Plug 'kana/vim-textobj-indent'
-  Plug 'andyl/vim-textobj-elixir'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -126,7 +126,7 @@ command! BD call fzf#run(fzf#wrap({
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
 
-" Options for default :FZF command
+""" Options for default :FZF command
 let g:fzf_files_options =
   \ '--preview="bat --color=always --style=numbers {}" --bind shift-up:preview-up,shift-down:preview-down'
 
@@ -195,6 +195,8 @@ augroup format_json
 augroup END
 """ Custom path to coc-settings fulle
 let g:coc_config_home = '/usr/local/opt/dotfiles/configs/'
+""" List of CoC extensions
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-elixir', 'coc-html', 'coc-markdownlint', 'coc-tsserver', 'coc-yaml', 'coc-prettier', 'coc-eslint']
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
 " let g:lightline = {
