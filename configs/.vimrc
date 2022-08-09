@@ -231,7 +231,7 @@ let g:limelight_default_coefficient = 0.8
 " Appending whitespace in funciton below enables Ripgrep work without search
 " term
 command! -bang -nargs=* Rg 
-      \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".(<q-args>).string(""), 1, 
+      \ call fzf#vim#grep(printf("rg --column --line-number --no-heading --color=always --smart-case '%s'", escape(empty(<q-args>) ? '' : <q-args>, '"\')), 1, 
       \ fzf#vim#with_preview(), <bang>0)
 "" Vim-fugitive
 cnoreabbrev <expr> gst (getcmdtype() ==# ':' && getcmdline() ==# 'gst')  ? 'G' : 'gst'
