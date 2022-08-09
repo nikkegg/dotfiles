@@ -13,7 +13,6 @@
     "elixir"
   ],
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
-  "elixir.pathToElixirLS": "~/language-servers/elixir-ls/release/language_server.sh",
   "eslint.autoFixOnSave": true,
   "diagnostic.errorSign": "E",
   "diagnostic.warningSign": "W",
@@ -21,35 +20,5 @@
   "diagnostic.infoSign": "I",
   "diagnostic.level": "hint",
   "diagnostic.enable": true,
-  "diagnostic.checkCurrentLine": true,
-  "diagnostic-languageserver.filetypes": {
-    "elixir": ["mix_credo", "mix_credo_compile"]
-  },
-  "diagnostic-languageserver.linters": {
-    "mix_credo": {
-      "command": "mix",
-      "debounce": 1000,
-      "rootPatterns": ["mix.exs"],
-      "args": ["credo"],
-      "offsetLine": 0,
-      "offsetColumn": 0,
-      "sourceName": "mix_credo",
-      "formatLines": 1,
-      "formatPattern": [
-        "^[^ ]+?:([0-9]+)(:([0-9]+))?:\\s+([^ ]+):\\s+(.*)(\\r|\\n)*$",
-        {
-          "line": 1,
-          "column": 3,
-          "message": 5,
-          "security": 4
-        }
-      ],
-      "securities": {
-        "F": "warning",
-        "C": "warning",
-        "D": "info",
-        "R": "info"
-      }
-    }
-  }
+  "diagnostic.checkCurrentLine": true
 }
