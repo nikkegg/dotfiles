@@ -11,7 +11,7 @@ call plug#begin()
   Plug 'lambdalisue/nerdfont.vim'
   Plug 'lambdalisue/fern-renderer-nerdfont.vim'
   Plug 'lambdalisue/fern-git-status.vim'
-  Plug 'junegunn/fzf.vim'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " Modify * to also work with visual selections.
   Plug 'nelstrom/vim-visual-star-search'
@@ -125,6 +125,10 @@ command! BD call fzf#run(fzf#wrap({
   \ 'sink*': { lines -> s:delete_buffers(lines) },
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
+
+" Options for default :FZF command
+let g:fzf_files_options =
+  \ '--preview="bat --color=always --style=numbers {}" --bind shift-up:preview-up,shift-down:preview-down'
 
 
 "" Coc-general
@@ -406,7 +410,7 @@ let g:tmux_navigator_no_mappings = 1
 :tnoremap <C-q> <C-w><C-c>
 :nnoremap top :vert terminal<CR>
 "" Search bindings
-:nnoremap <space>p :FZF -m<CR>
+:nnoremap <space>p :Files<CR>
 :nnoremap <space>f :Rg<space>
 "" CoC bindings
 :nnoremap <silent> gd <Plug>(coc-definition)

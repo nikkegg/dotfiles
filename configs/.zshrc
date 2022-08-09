@@ -12,13 +12,13 @@ export ZSH="${HOME}/.oh-my-zsh"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export PAGER='most'
-# Homebrew
 # Make homebrew work on Apple Silicone
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_NO_ANALYTICS=1
 # Plugins
 plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions)
-
+# Make asdf work
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 # Aliases
 alias vim="vim -S ~/.vimrc"
 alias gst='git status'
@@ -28,12 +28,11 @@ alias ga='git add -p'
 alias ..='cd ..'
 alias gfp='git push --force-with-lease'
 alias git='hub'
-# alias fhub='GITHUB_TOKEN=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 hub'
+alias f="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
 alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
-# export FZF_DEFAULT_OPTS="--preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
 export FZF_CTRL_R_OPTS="--preview=''"
 export FZF_ALT_C_OPTS="--preview='tree -C {} | head -200'"
 
