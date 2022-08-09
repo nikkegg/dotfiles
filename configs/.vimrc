@@ -199,13 +199,6 @@ let g:coc_config_home = '$HOME/dotfiles/configs/'
 let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-elixir', 'coc-html', 'coc-markdownlint', 'coc-tsserver', 'coc-yaml', 'coc-prettier', 'coc-eslint']
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
-" let g:lightline = {
-  " \   'active': {
-  " \     'left': [[  'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok' ], [ 'coc_status'  ]]
-  " \   }
-  " \ }
-
-" register compoments:
 let g:lightline#coc#indicator_hints = 'H '
 let g:lightline#coc#indicator_info = 'I ' 
 let g:lightline#coc#indicator_errors = 'E '
@@ -224,6 +217,7 @@ let g:lightline = {
   \   'gitbranch': 'FugitiveHead'
   \ },
   \ }
+" Autcommand for lightline update
 call lightline#coc#register()
 "" Limelight
 let g:limelight_default_coefficient = 0.8
