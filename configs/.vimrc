@@ -208,7 +208,7 @@ let g:lightline = {
   \ 'colorscheme': 'tokyonight',
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste', 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
-	\             [ 'readonly', 'filename', 'modified', 'coc_status' ]],
+	\             [ 'readonly', 'filename', 'modified' ]],
 	\   'right': [ [ 'lineinfo',  ],
 	\              [ 'percent' ],
 	\              ['fileencoding', 'gitbranch'] ]
@@ -249,6 +249,7 @@ augroup END
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
+set nocompatible
 set encoding=utf-8
 set autoindent
 set hidden
@@ -262,17 +263,20 @@ let g:tokyonight_style = 'storm'
 colorscheme tokyonight
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
-set autoindent
 set autoread
 set backspace=indent,eol,start
 set cursorline
 set hlsearch
 set ignorecase
 set incsearch
-set nocompatible
 set noerrorbells visualbell t_vb=
 set number relativenumber
 set laststatus=2
+set textwidth=76
+
+set wrap " turn on line wrapping
+set linebreak " set soft wrapping
+set showbreak=… " show ellipsis at breaking
 if has('nvim') || has('termguicolors')
   set termguicolors
 endif
@@ -374,6 +378,12 @@ let g:tmux_navigator_no_mappings = 1
 "" CoC bindings
 :nnoremap <silent> gd <Plug>(coc-definition)
 :nnoremap <silent> gdv :call CocAction('jumpDefinition', 'vsplit')<cr>
+
+"" scroll the viewport faster
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>
+"" Vim plugins
+runtime! ftplugin/man.vim
 """"""""""""""""""""""""
 "  Custom functions  "
 """"""""""""""""""""""""
