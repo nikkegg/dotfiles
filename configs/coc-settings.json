@@ -13,6 +13,7 @@
     "elixir"
   ],
   "coc.preferences.currentFunctionSymbolAutoUpdate": true,
+  "json.format.enable": true,
   "eslint.autoFixOnSave": true,
   "diagnostic.errorSign": "E",
   "diagnostic.warningSign": "W",

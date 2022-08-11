@@ -36,6 +36,8 @@ call plug#begin()
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
   Plug 'kana/vim-textobj-indent'
+  " Make qf list editable
+  Plug 'romainl/vim-qf'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -246,6 +248,10 @@ augroup qs_colors
   autocmd ColorScheme * highlight QuickScopePrimary guifg='#afff5f' gui=underline ctermfg=155 cterm=underline
   autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 augroup END
+"" Vim-qf
+" Allow Ack mapppings - v to vertical split, to open in a tab, o to open and
+" return, O to open and close quickfix list
+let g:qf_mapping_ack_style = 1
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
@@ -273,7 +279,6 @@ set noerrorbells visualbell t_vb=
 set number relativenumber
 set laststatus=2
 set textwidth=76
-
 set wrap " turn on line wrapping
 set linebreak " set soft wrapping
 set showbreak=… " show ellipsis at breaking
@@ -283,30 +288,16 @@ endif
 " Folding
 set foldmethod=syntax
 set foldlevel=99
+"
+"" Vim plugins
+runtime! ftplugin/man.vim
+packadd cfilter
 " Fold verything if opening .vimrc
 augroup FoldVimrc
   autocmd!
   autocmd BufEnter .vimrc setl foldlevel=0
 augroup END
 
-"" Temporary Grep whilst I am figuring out fzf
-set grepprg=rg\ --vimgrep
-
-function! Grep(...)
-	return system(join([&grepprg] + [expandcmd(join(a:000, ' '))], ' '))
-endfunction
-
-command! -nargs=+ -complete=file_in_path -bar Grep  cgetexpr Grep(<f-args>)
-command! -nargs=+ -complete=file_in_path -bar LGrep lgetexpr Grep(<f-args>)
-
-cnoreabbrev <expr> grep  (getcmdtype() ==# ':' && getcmdline() ==# 'grep')  ? 'Grep'  : 'grep'
-cnoreabbrev <expr> lgrep (getcmdtype() ==# ':' && getcmdline() ==# 'lgrep') ? 'LGrep' : 'lgrep'
-
-augroup quickfix
-	autocmd!
-	autocmd QuickFixCmdPost cgetexpr cwindow
-	autocmd QuickFixCmdPost lgetexpr lwindow
-augroup END
 """"""""""""""""""""""""
 "  Bindings  "
 """"""""""""""""""""""""
@@ -382,8 +373,6 @@ let g:tmux_navigator_no_mappings = 1
 "" scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
-"" Vim plugins
-runtime! ftplugin/man.vim
 """"""""""""""""""""""""
 "  Custom functions  "
 """"""""""""""""""""""""
