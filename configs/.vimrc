@@ -23,7 +23,6 @@ call plug#begin()
   Plug 'haya14busa/is.vim'
   Plug 'unblevable/quick-scope'
   Plug 'sheerun/vim-polyglot'
-  Plug 'embark-theme/vim', { 'as': 'embark', 'branch': 'main' } 
   Plug 'itchyny/lightline.vim'
   Plug 'tmux-plugins/vim-tmux'
   Plug 'vim-test/vim-test'
