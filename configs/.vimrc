@@ -2,7 +2,10 @@
 "  Plugins  "
 """"""""""""""""""""""""
 call plug#begin()
-  Plug 'ghifarit53/tokyonight-vim'
+  Plug 'junegunn/seoul256.vim'
+  Plug 'yegappan/mru'
+  Plug 'wellle/targets.vim'
+  Plug 'mbbill/undotree'
   Plug 'vim-test/vim-test'
   Plug 'lambdalisue/fern.vim'
   Plug 'josa42/vim-lightline-coc'
@@ -35,6 +38,7 @@ call plug#begin()
   Plug 'tpope/vim-repeat' 
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
+  Plug 'ryanoasis/vim-devicons'
   Plug 'kana/vim-textobj-indent'
   " Make qf list editable
   Plug 'romainl/vim-qf'
@@ -205,19 +209,21 @@ let g:lightline#coc#indicator_hints = 'H '
 let g:lightline#coc#indicator_info = 'I ' 
 let g:lightline#coc#indicator_errors = 'E '
 let g:lightline#coc#indicator_warnings = 'W '
-
 let g:lightline = {
-  \ 'colorscheme': 'tokyonight',
+  \ 'colorscheme': 'seoul256',
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste', 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
-	\             [ 'readonly', 'filename', 'modified' ]],
-	\   'right': [ [ 'lineinfo',  ],
+	\             [ 'readonly', 'filetype', 'modified' ]],
+	\   'right': [ 
 	\              [ 'percent' ],
 	\              ['fileencoding', 'gitbranch'] ]
 	\ },
   \ 'component_function': {
-  \   'gitbranch': 'FugitiveHead'
+  \   'gitbranch': 'FancyGitHead',
+  \   'filetype': 'MyFileType'
   \ },
+	\ 'separator': { 'left': '', 'right': '' },
+		\ 'subseparator': { 'left': '', 'right': '' }
   \ }
 " Autcommand for lightline update
 call lightline#coc#register()
@@ -260,13 +266,20 @@ set encoding=utf-8
 set autoindent
 set hidden
 set nobackup
+set noshowcmd
 set nowritebackup
 set cmdheight=2
+set noswapfile
 set updatetime=300
 set shortmess+=c
 syntax on
-let g:tokyonight_style = 'storm'
-colorscheme tokyonight
+ " Colorscheme and cursor
+let g:solarized_termcolors=256
+let g:jellybeans_use_term_background_color=0
+let g:seoul256_background = 234
+let g:seoul256_srgb = 1
+set background=dark
+colorscheme seoul256
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 set autoread
@@ -278,10 +291,12 @@ set incsearch
 set noerrorbells visualbell t_vb=
 set number relativenumber
 set laststatus=2
-set textwidth=76
 set wrap " turn on line wrapping
 set linebreak " set soft wrapping
 set showbreak=… " show ellipsis at breaking
+set scrolloff=5
+set signcolumn=number
+set textwidth=80
 if has('nvim') || has('termguicolors')
   set termguicolors
 endif
@@ -323,6 +338,9 @@ augroup END
 nnoremap <silent><leader>l :Limelight!!<CR>
 " Echo git blame
 nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
+" Write and quit with leader
+nnoremap <leader>w :w!<cr>
+nnoremap <leader>q :q!<CR>
 "" Move lines up and down like in VScode
 nnoremap K :m .-2<CR>==
 nnoremap J :m .+1<CR>==
@@ -370,9 +388,11 @@ let g:tmux_navigator_no_mappings = 1
 :nnoremap <silent> gd <Plug>(coc-definition)
 :nnoremap <silent> gdv :call CocAction('jumpDefinition', 'vsplit')<cr>
 
-"" scroll the viewport faster
+"" Scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
+" Undotree
+command! UT :UndotreeToggle
 """"""""""""""""""""""""
 "  Custom functions  "
 """"""""""""""""""""""""
@@ -381,6 +401,15 @@ nnoremap <C-y> 3<C-y>
 function! MakeRoot() 
   :cd %:p:h
   :setl foldlevel=0
+endfunction
+"" Display branch symbol in statusline
+function! FancyGitHead()
+  return FugitiveHead()." ".""
+endfunction
+
+"" Add devicon to lightline
+function! MyFileType()
+  return winwidth(0) > 70 ? (WebDevIconsGetFileTypeSymbol(). " ". expand("%:t")) : ''
 endfunction
 """"""""""""""""""""""""
 "  Custom folding  "
