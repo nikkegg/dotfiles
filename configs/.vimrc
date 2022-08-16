@@ -257,6 +257,15 @@ augroup END
 " Allow Ack mapppings - v to vertical split, to open in a tab, o to open and
 " return, O to open and close quickfix list
 let g:qf_mapping_ack_style = 1
+"" Vim test
+let g:test#strategy = 'vimterminal'
+" Enables :Jest command
+let g:test#runner_commands = ['Jest']
+" Tells vim test to use script defined in package.json
+let g:test#javascript#jest#executable = 'yarn test'
+let g:test#javascript#runner = 'jest'
+" Only load jest
+let test#enabled_runners =  ["javascript#jest"]
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
