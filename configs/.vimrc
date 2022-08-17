@@ -2,20 +2,31 @@
 "  Plugins  "
 """"""""""""""""""""""""
 call plug#begin()
+" Run asyn jobs from inside vim 😍
+  Plug 'skywind3000/asyncrun.vim'
+  " Theme
   Plug 'junegunn/seoul256.vim'
+  " Most recently used files
   Plug 'yegappan/mru'
+  " Normal vim motions with seeking
   Plug 'wellle/targets.vim'
+  " View entire editing tree
   Plug 'mbbill/undotree'
+  " Magic
   Plug 'vim-test/vim-test'
+  " Filetree manager, git status for changes files, nerdtree icons
   Plug 'lambdalisue/fern.vim'
-  Plug 'josa42/vim-lightline-coc'
-  " Only show relative line number in active buffer
-  Plug 'myusuf3/numbers.vim'
   Plug 'lambdalisue/nerdfont.vim'
   Plug 'lambdalisue/fern-renderer-nerdfont.vim'
   Plug 'lambdalisue/fern-git-status.vim'
+  " Error, warning and info summary in statusline
+  Plug 'josa42/vim-lightline-coc'
+  " Only show relative line number in active buffer
+  Plug 'myusuf3/numbers.vim'
+  " Search interface
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  " LSP for vim
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   " Modify * to also work with visual selections.
   Plug 'nelstrom/vim-visual-star-search'
@@ -25,7 +36,6 @@ call plug#begin()
   Plug 'sheerun/vim-polyglot'
   Plug 'itchyny/lightline.vim'
   Plug 'tmux-plugins/vim-tmux'
-  Plug 'vim-test/vim-test'
   Plug 'junegunn/goyo.vim'
   Plug 'junegunn/limelight.vim'
   Plug 'christoomey/vim-system-copy'
@@ -213,13 +223,13 @@ let g:lightline = {
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste', 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
 	\             [ 'readonly', 'filetype', 'modified' ]],
-	\   'right': [ 
-	\              [ 'percent' ],
-	\              ['fileencoding', 'gitbranch'] ]
+	\   'right': [ [ 'percent' ],
+	\              ['teststatus', 'gitbranch', 'fileencoding'] ]
 	\ },
   \ 'component_function': {
   \   'gitbranch': 'FancyGitHead',
-  \   'filetype': 'MyFileType'
+  \   'filetype': 'MyFileType',
+  \   'teststatus': 'TestStatus'
   \ },
 	\ 'separator': { 'left': '', 'right': '' },
 		\ 'subseparator': { 'left': '', 'right': '' }
@@ -254,18 +264,64 @@ augroup qs_colors
   autocmd ColorScheme * highlight QuickScopeSecondary guifg='#5fffff' gui=underline ctermfg=81 cterm=underline
 augroup END
 "" Vim-qf
-" Allow Ack mapppings - v to vertical split, to open in a tab, o to open and
+" Allow Ack mapppings - v to vertical split,t to open in a tab, o to open and
 " return, O to open and close quickfix list
 let g:qf_mapping_ack_style = 1
 "" Vim test
-let g:test#strategy = 'vimterminal'
+let g:test#echo_command = 0
+" Run tests async, to view results open quickfix window
+let g:test#strategy = 'asyncrun_background'
 " Enables :Jest command
 let g:test#runner_commands = ['Jest']
 " Tells vim test to use script defined in package.json
 let g:test#javascript#jest#executable = 'yarn test'
 let g:test#javascript#runner = 'jest'
 " Only load jest
-let test#enabled_runners =  ["javascript#jest"]
+let g:test#enabled_runners =  ["javascript#jest"]
+" This is a bit annoying, but is required to make vim-test work with monorepos. Essentially this will cd into the relevant package before running tests. Avoids 10k lines of empty output when jest is trying to run test in other packages.
+augroup MonorepoPathsVimTest
+  autocmd!
+  autocmd BufEnter ~/code/sylvera-service/packages/monitoring/* let g:test#project_root = "~/code/sylvera-service/packages/monitoring"
+  autocmd BufEnter ~/code/sylvera-service/packages/auth/* let g:test#project_root = "~/code/sylvera-service/packages/auth"
+  autocmd BufEnter ~/code/sylvera-service/packages/cache-projects/* let g:test#project_root = "~/code/sylvera-service/packages/cache-projects"
+  autocmd BufEnter ~/code/sylvera-service/packages/cognito/* let g:test#project_root = "~/code/sylvera-service/packages/cognito"
+  autocmd BufEnter ~/code/sylvera-service/packages/container/* let g:test#project_root = "~/code/sylvera-service/packages/container"
+  autocmd BufEnter ~/code/sylvera-service/packages/database-projects/* let g:test#project_root = "~/code/sylvera-service/packages/database-projects"
+  autocmd BufEnter ~/code/sylvera-service/packages/emails/* let g:test#project_root = "~/code/sylvera-service/packages/emails"
+  autocmd BufEnter ~/code/sylvera-service/packages/maps/* let g:test#project_root = "~/code/sylvera-service/packages/maps"
+  autocmd BufEnter ~/code/sylvera-service/packages/notifications/* let g:test#project_root = "~/code/sylvera-service/packages/notifications"
+  autocmd BufEnter ~/code/sylvera-service/packages/projects/* let g:test#project_root = "~/code/sylvera-service/packages/projects"
+  autocmd BufEnter ~/code/sylvera-service/packages/shared/* let g:test#project_root = "~/code/sylvera-service/packages/shared"
+  autocmd BufEnter ~/code/sylvera-service/packages/usage/* let g:test#project_root = "~/code/sylvera-service/packages/usage"
+  autocmd BufEnter ~/code/sylvera-service/packages/users/* let g:test#project_root = "~/code/sylvera-service/packages/users"
+  autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:test#project_root = "~/code/sylvera-service/packages/versions-service"
+augroup END
+
+augroup AsyncHook
+  autocmd!
+  autocmd User AsyncRunStop call TestFinished()
+  autocmd User AsyncRunPre call TestStarted()
+augroup END
+" initially empty status
+let g:testing_status = ''
+
+function! TestStarted() abort
+  let g:testing_status = 'Testing... ⌛'
+endfunction
+
+function! TestFinished() abort
+  let job_status = g:asyncrun_status
+  if job_status == "success"
+    let g:testing_status = 'Test ✅ ' 
+  endif
+  if job_status == "failure" 
+    let g:testing_status = 'Test ☠️ '
+  endif
+endfunction
+" Used in lightline
+function! TestStatus() abort
+  return g:testing_status
+endfunction
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
@@ -332,7 +388,8 @@ augroup END
 :xnoremap <leader>r y<Esc>:%s/<C-R>"//g<Left><Left>
 " Find in replace in multiple files - work in progress
 :nnoremap <leader>R :Grep <c-r>=expand("<cword>")<cr><cr><cr>:cfdo %s/<c-r>=expand("<cword>")<cr>//ge \| cclose \| wa!<C-Left><C-Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
-:nnoremap <leader>cc :cclose<cr>
+" Toggle quickfix
+nnoremap <expr> <leader>cc empty(filter(getwininfo(), 'v:val.quickfix')) ? ':copen<CR>' : ':cclose<CR>'
 :nnoremap <leader>d dd
 :nnoremap <leader>ev :vsplit ~/dotfiles/configs/.vimrc<cr>
 :nnoremap <leader>sv :source ~/.vimrc<cr>
@@ -349,6 +406,12 @@ nnoremap <Leader>gb :<C-u>call gitblame#echo()<CR>
 " Write and quit with leader
 nnoremap <leader>w :w!<cr>
 nnoremap <leader>q :q!<CR>
+" Vim test
+nnoremap <leader>tn :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>ts :TestSuite<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tv :TestVisit<CR>
 "" Move lines up and down like in VScode
 nnoremap K :m .-2<CR>==
 nnoremap J :m .+1<CR>==
@@ -402,7 +465,7 @@ nnoremap <C-y> 3<C-y>
 " Undotree
 command! UT :UndotreeToggle
 """"""""""""""""""""""""
-"  Custom functions  "
+" Plugin-unrelated functions  "
 """"""""""""""""""""""""
 "" Make current dir root
 " Use with configs alias in zshrc
@@ -418,6 +481,23 @@ endfunction
 "" Add devicon to lightline
 function! MyFileType()
   return winwidth(0) > 70 ? (WebDevIconsGetFileTypeSymbol(). " ". expand("%:t")) : ''
+endfunction
+""""""""""""""""""""""""
+"  Abbreviations  "
+""""""""""""""""""""""""
+"" Typescript
+augroup typescript_abbr
+  autocmd!
+  autocmd BufRead,BufNewFile *.ts,*.spec.ts call TypescriptAbbrev()
+augroup END
+
+function! TypescriptAbbrev()
+  :iabbrev ima import {} from '';<Left><Left>
+  :iabbrev <buffer> cla console.log();<Left><Left>
+  :iabbrev <buffer> ifa if() {<CR>}<Esc>%<Left><Left>i
+  :iabbrev <buffer> swa switch(z) {<CR>}<Up><End><CR>case :<CR><BS>break;<CR><CR>default:<CR><BS>break;<Esc>j%Fzxi
+  :iabbrev <buffer> fua function() {<CR>}<Esc>%F(i
+  :iabbrev <buffer> afua async function() {<CR>}<Esc>%F(i
 endfunction
 """"""""""""""""""""""""
 "  Custom folding  "
