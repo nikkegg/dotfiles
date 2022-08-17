@@ -52,6 +52,8 @@ call plug#begin()
   Plug 'kana/vim-textobj-indent'
   " Make qf list editable
   Plug 'romainl/vim-qf'
+  "Embedd vim statusline in tmux status bar
+  Plug 'vimpostor/vim-tpipeline'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -323,6 +325,13 @@ endfunction
 function! TestStatus() abort
   return g:testing_status
 endfunction
+"" Tpipeline
+let g:tpipeline_cursor_move=1
+augroup Tpipeline
+  autocmd!
+  autocmd User CocDiagnosticChange call tpipeline#update()
+  autocmd User CocStatusChange call tpipeline#update()
+augroup END
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
@@ -368,7 +377,11 @@ endif
 " Folding
 set foldmethod=syntax
 set foldlevel=99
-"
+" Disable statusline (embed in tmux status bar instead)
+set noshowmode
+set noruler
+set laststatus=0
+set noshowcmd
 "" Vim plugins
 runtime! ftplugin/man.vim
 packadd cfilter
