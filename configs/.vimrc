@@ -45,9 +45,10 @@ call plug#begin()
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-repeat' 
+  Plug 'ryanoasis/vim-devicons'
+  " Text objects
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
-  Plug 'ryanoasis/vim-devicons'
   Plug 'kana/vim-textobj-indent'
   " Make qf list editable
   Plug 'romainl/vim-qf'
@@ -492,12 +493,13 @@ augroup typescript_abbr
 augroup END
 
 function! TypescriptAbbrev()
+  :iabbrev ca const=;<Left><Left>
+  :iabbrev la let=;<Left><Left>
   :iabbrev ima import {} from '';<Left><Left>
-  :iabbrev <buffer> cla console.log();<Left><Left>
-  :iabbrev <buffer> ifa if() {<CR>}<Esc>%<Left><Left>i
-  :iabbrev <buffer> swa switch(z) {<CR>}<Up><End><CR>case :<CR><BS>break;<CR><CR>default:<CR><BS>break;<Esc>j%Fzxi
-  :iabbrev <buffer> fua function() {<CR>}<Esc>%F(i
-  :iabbrev <buffer> afua async function() {<CR>}<Esc>%F(i
+  :iabbrev cla console.log();<Left><Left>
+  :iabbrev ifa if() {<CR>}<Esc>%i<Left><Left>
+  :iabbrev fua function() {<CR>}<Esc>%F(i
+  :iabbrev afua async function() {<CR>}<Esc>%F(i
 endfunction
 """"""""""""""""""""""""
 "  Custom folding  "
