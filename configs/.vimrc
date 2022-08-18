@@ -305,16 +305,16 @@ augroup END
 let g:testing_status = ''
 
 function! TestStarted() abort
-  let g:testing_status = 'Testing ⌛'
+  let g:testing_status = 'Running ⌛'
 endfunction
 
 function! TestFinished() abort
   let job_status = g:asyncrun_status
   if job_status == "success"
-    let g:testing_status = 'Test ✅ ' 
+    let g:testing_status = 'Complete ✅ ' 
   endif
   if job_status == "failure" 
-    let g:testing_status = 'Test ☠️ '
+    let g:testing_status = 'Failed ☠️ '
   endif
 endfunction
 " Used in lightline
