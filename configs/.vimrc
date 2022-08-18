@@ -6,8 +6,6 @@ call plug#begin()
   Plug 'skywind3000/asyncrun.vim'
   " Theme
   Plug 'junegunn/seoul256.vim'
-  " Most recently used files
-  Plug 'yegappan/mru'
   " Normal vim motions with seeking
   Plug 'wellle/targets.vim'
   " View entire editing tree
@@ -234,8 +232,6 @@ let g:lightline = {
   \   'filetype': 'MyFileType',
   \   'teststatus': 'TestStatus'
   \ },
-	\ 'separator': { 'left': '', 'right': '' },
-		\ 'subseparator': { 'left': '', 'right': '' }
   \ }
 " Autcommand for lightline update
 call lightline#coc#register()
@@ -309,7 +305,7 @@ augroup END
 let g:testing_status = ''
 
 function! TestStarted() abort
-  let g:testing_status = 'Testing... ⌛'
+  let g:testing_status = 'Testing ⌛'
 endfunction
 
 function! TestFinished() abort
