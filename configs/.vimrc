@@ -52,7 +52,8 @@ call plug#begin()
   Plug 'romainl/vim-qf'
   "Embedd vim statusline in tmux status bar
   Plug 'vimpostor/vim-tpipeline'
-  " Use vim as a pager
+  " Use vim as a pager. Supports link navigation via Enter/K. Tab S-Tab scrolls
+  " man pages
   Plug 'lambdalisue/vim-pager'
   Plug 'lambdalisue/vim-manpager'
   Plug 'powerman/vim-plugin-AnsiEsc'

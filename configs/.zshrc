@@ -23,7 +23,7 @@ plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosu
 # Make asdf work
 . /opt/homebrew/opt/asdf/libexec/asdf.sh
 # Aliases
-alias vim="vim -S ~/.vimrc"
+alias vim="PAGER=bat vim -S ~/.vimrc"
 alias gst='git status'
 alias gc='git commit'
 alias gco='git checkout'
