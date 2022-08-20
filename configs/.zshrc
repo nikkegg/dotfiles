@@ -7,13 +7,13 @@ COMPLETION_WAITING_DOTS="true"
 ZVM_VI_ESCAPE_BINDKEY=jk
 EDITOR='vim'
 MOST_EDITOR='vim'
+PAGER='bat'
 # Stop naming tmux windows automatically
 DISABLE_AUTO_TITLE="true"
 # Exports
 export ZSH="${HOME}/.oh-my-zsh"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-export PAGER='most'
 # Make homebrew work on Apple Silicone
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_NO_ANALYTICS=1

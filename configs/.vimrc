@@ -574,3 +574,28 @@ augroup fold_vimrc
      "              \ set foldcolumn=2 foldminlines=2
 augroup END
 
+""""""""""""""""""""""""
+"   WIP   "
+""""""""""""""""""""""""
+"" Ripgrep
+"Attempt to make ripgrep respect usual flags, but also to support regex in-built regex engine
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
+"" My attempt
+" Idea is to be able to parse rg with positional arguments and flags,
+" whilst still using regex
+" Example: rg -w '^function' file.ext
+function! RipTest(...)
+  let args = a:000
+  let dir_param = args[-1] =~ 'in=*' ? split(args[-1], '=')[-1] : expand('%:p:h')
+  let query = args[-2]
+  "should extract into env variable
+  let base_command ='rg --column --line-number --no-heading --color=always --smart-case %s || true'
+endfunction
