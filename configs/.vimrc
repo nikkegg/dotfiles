@@ -52,6 +52,9 @@ call plug#begin()
   Plug 'romainl/vim-qf'
   "Embedd vim statusline in tmux status bar
   Plug 'vimpostor/vim-tpipeline'
+  " Use vim as a pager
+  Plug 'lambdalisue/vim-pager'
+  Plug 'lambdalisue/vim-manpager'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "

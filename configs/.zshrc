@@ -6,8 +6,8 @@ HIST_STAMPS="dd.mm.yyyy"
 COMPLETION_WAITING_DOTS="true"
 ZVM_VI_ESCAPE_BINDKEY=jk
 EDITOR='vim'
-MOST_EDITOR='vim'
-PAGER='bat'
+export PAGER='vim -c PAGER -'
+export MANPAGER="vim -c ASMANPAGER -"
 # Stop naming tmux windows automatically
 DISABLE_AUTO_TITLE="true"
 # Exports
