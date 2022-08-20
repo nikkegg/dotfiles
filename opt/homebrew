@@ -2,7 +2,6 @@ fzf
 git
 yarn
 vim
-most
 bat
 asdf
 hub
@@ -14,3 +13,5 @@ htop
 node
 tree
 pgcli
+git-delta
+nvm

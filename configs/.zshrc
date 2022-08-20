@@ -30,7 +30,7 @@ alias gco='git checkout'
 alias ga='git add -p'
 alias ..='cd ..'
 alias gfp='git push --force-with-lease'
-alias git='hub'
+alias git='PAGER=bat hub'
 alias f="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:preview-up,shift-down:preview-down"
 alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'

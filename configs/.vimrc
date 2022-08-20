@@ -55,6 +55,7 @@ call plug#begin()
   " Use vim as a pager
   Plug 'lambdalisue/vim-pager'
   Plug 'lambdalisue/vim-manpager'
+  Plug 'powerman/vim-plugin-AnsiEsc'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
