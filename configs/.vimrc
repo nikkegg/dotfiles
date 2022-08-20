@@ -42,7 +42,7 @@ call plug#begin()
   Plug 'zivyangll/git-blame.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
-  Plug 'tpope/vim-repeat' 
+  Plug 'tpope/vim-repeat'
   Plug 'ryanoasis/vim-devicons'
   " Text objects
   Plug 'kana/vim-textobj-user'
@@ -221,7 +221,7 @@ let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-elixir', '
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
 let g:lightline#coc#indicator_hints = 'H '
-let g:lightline#coc#indicator_info = 'I ' 
+let g:lightline#coc#indicator_info = 'I '
 let g:lightline#coc#indicator_errors = 'E '
 let g:lightline#coc#indicator_warnings = 'W '
 let g:lightline = {
@@ -316,9 +316,9 @@ endfunction
 function! TestFinished() abort
   let job_status = g:asyncrun_status
   if job_status == "success"
-    let g:testing_status = 'Complete ✅ ' 
+    let g:testing_status = 'Complete ✅ '
   endif
-  if job_status == "failure" 
+  if job_status == "failure"
     let g:testing_status = 'Failed ☠️ '
   endif
 endfunction
@@ -484,7 +484,7 @@ command! UT :UndotreeToggle
 """"""""""""""""""""""""
 "" Make current dir root
 " Use with configs alias in zshrc
-function! MakeRoot() 
+function! MakeRoot()
   :cd %:p:h
   :setl foldlevel=0
 endfunction
@@ -572,7 +572,7 @@ endfunction
 "" set foldsettings automatically for vim files
 augroup fold_vimrc
   autocmd!
-  autocmd FileType vim 
+  autocmd FileType vim
                    \ setlocal foldmethod=expr |
                    \ setlocal foldexpr=VimFolds(v:lnum) |
                    \ setlocal foldtext=VimFoldText() |
@@ -597,10 +597,36 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " Idea is to be able to parse rg with positional arguments and flags,
 " whilst still using regex
 " Example: rg -w '^function' file.ext
+"branching:
+  " if 1 arg, assume simple query
+  " if two args and one is a path, assume simple query with a path
+  " if two or more args and no path, assume query and a flag
+  " if
+" TO-DO:
+" fix preview when passing an in argument
+" support flags and in argument when realoading the query
 function! RipTest(...)
-  let args = a:000
-  let dir_param = args[-1] =~ 'in=*' ? split(args[-1], '=')[-1] : expand('%:p:h')
-  let query = args[-2]
-  "should extract into env variable
-  let base_command ='rg --column --line-number --no-heading --color=always --smart-case %s || true'
+  let args = split(a:000[0], " ")
+  let arg_count = len(args)
+  if arg_count == 1
+    call RipgrepFzf(args[0], 0)
+  elseif arg_count >= 2 && args[-1] =~ 'in=*'
+    let dir_param = split(args[-1], '=')[1]
+    let query = args[-2]
+    let ripgrep_flags = join(args[0:-3], " ")
+    let base_command ='rg --column --line-number --no-heading --color=always --smart-case '.ripgrep_flags.' %s '.dir_param
+    let initial_command = printf(base_command, shellescape(query))
+    echo initial_command
+    let spec = {'options': ['--phony']}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), 0)
+  elseif arg_count >= 2
+    let query = args[-1]
+    let ripgrep_flags = join(args[0:-2], " ")
+    let base_command ='rg --column --line-number --no-heading --color=always --smart-case '.ripgrep_flags.' %s '
+    let initial_command = printf(base_command, shellescape(query))
+    let spec = {'options': ['--phony']}
+    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), 0)
+ endif
 endfunction
+
+command! -nargs=* RT call RipTest(<q-args>)
