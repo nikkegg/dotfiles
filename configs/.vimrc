@@ -392,6 +392,7 @@ set noshowmode
 set noruler
 set laststatus=0
 set noshowcmd
+set nomore
 "" Vim plugins
 runtime! ftplugin/man.vim
 packadd cfilter
