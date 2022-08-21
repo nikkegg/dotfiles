@@ -30,6 +30,7 @@ call plug#begin()
   Plug 'nelstrom/vim-visual-star-search'
   " Automatically clear search highlights after you move your cursor.
   Plug 'haya14busa/is.vim'
+  Plug 'airblade/vim-gitgutter'
   Plug 'unblevable/quick-scope'
   Plug 'sheerun/vim-polyglot'
   Plug 'itchyny/lightline.vim'
@@ -333,9 +334,21 @@ augroup Tpipeline
   autocmd User CocDiagnosticChange call tpipeline#update()
   autocmd User CocStatusChange call tpipeline#update()
 augroup END
+"" Gitgutter
+let g:gitgutter_preview_win_floating = 1
+let g:gitgutter_map_keys = 0
+let g:gitgutter_set_sign_backgrounds = 1
+let g:gitgutter_sign_added = '|'
+let g:gitgutter_sign_modified = '|'
+let g:gitgutter_sign_removed = '|'
+let g:gitgutter_sign_removed_first_line = '|'
+let g:gitgutter_sign_removed_above_and_below = '|'
+let g:gitgutter_sign_modified_removed = '|'
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
+" For git gutter
+set signcolumn=yes
 set nocompatible
 set encoding=utf-8
 set autoindent
@@ -348,11 +361,8 @@ set noswapfile
 set updatetime=300
 set shortmess+=c
 syntax on
- " Colorscheme and cursor
-let g:solarized_termcolors=256
-let g:jellybeans_use_term_background_color=0
-let g:seoul256_background = 234
-let g:seoul256_srgb = 1
+" Colorscheme and cursor
+let g:seoul256_background = 233
 set background=dark
 colorscheme seoul256
 let &t_SI = "\e[6 q"
@@ -370,7 +380,6 @@ set wrap " turn on line wrapping
 set linebreak " set soft wrapping
 set showbreak=… " show ellipsis at breaking
 set scrolloff=5
-set signcolumn=number
 set textwidth=80
 if has('nvim') || has('termguicolors')
   set termguicolors
@@ -395,6 +404,23 @@ augroup END
 """"""""""""""""""""""""
 "  Bindings  "
 """"""""""""""""""""""""
+"" Gitgutter bindings
+" Hunk text object
+omap ih <Plug>(GitGutterTextObjectInnerPending)
+omap ah <Plug>(GitGutterTextObjectOuterPending)
+xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nnoremap <space>h :call GitGutterNextHunkCycle()<CR> 
+nnoremap <space>H <Plug>(GitGutterPrevHunk)
+nnoremap gph <Plug>(GitGutterPreviewHunk)
+function! GitGutterNextHunkCycle()
+  let line = line('.')
+  silent! GitGutterNextHunk
+  if line('.') == line
+    1
+    GitGutterNextHunk
+  endif
+endfunction
 "" Leader key bindings
 :let mapleader = ","
 "Find and replace in a single file
@@ -441,6 +467,7 @@ xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 "" Rebinds
 :inoremap jk <esc>
 :nnoremap <CR> o<esc>
+:nnoremap <S-CR> O<esc>
 :nnoremap <silent> j gj
 :nnoremap <silent> k gk
 :nnoremap <silent> 0 g0
