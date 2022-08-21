@@ -632,28 +632,33 @@ command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 " TO-DO:
 " fix preview when passing an in argument
 " support flags and in argument when realoading the query
-function! RipTest(...)
-  let args = split(a:000[0], " ")
-  let arg_count = len(args)
-  if arg_count == 1
-    call RipgrepFzf(args[0], 0)
-  elseif arg_count >= 2 && args[-1] =~ 'in=*'
-    let dir_param = split(args[-1], '=')[1]
-    let query = args[-2]
-    let ripgrep_flags = join(args[0:-3], " ")
-    let base_command ='rg --column --line-number --no-heading --color=always --smart-case '.ripgrep_flags.' %s '.dir_param
-    let initial_command = printf(base_command, shellescape(query))
-    echo initial_command
-    let spec = {'options': ['--phony']}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), 0)
-  elseif arg_count >= 2
-    let query = args[-1]
-    let ripgrep_flags = join(args[0:-2], " ")
-    let base_command ='rg --column --line-number --no-heading --color=always --smart-case '.ripgrep_flags.' %s '
-    let initial_command = printf(base_command, shellescape(query))
-    let spec = {'options': ['--phony']}
-    call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), 0)
+function! BuildRgCommand(arg_count, arg_list)
+  if a:arg_count >= 2 && a:arg_list[-1] =~ 'in=*'
+    let dir_param = split(a:arg_list[-1], '=')[1]
+    let query = a:arg_list[-2]
+    let ripgrep_flags = join(a:arg_list[0:-3], " ")
+    let base_command =$VIM_RG.' '.ripgrep_flags.' %s '.dir_param
+    return printf(base_command, shellescape(query))
+  else 
+    let query = a:arg_list[-1]
+    let ripgrep_flags = join(a:arg_list[0:-2], " ")
+    let base_command =$VIM_RG.' '.ripgrep_flags.' %s '
+    return printf(base_command, shellescape(query))
  endif
 endfunction
 
-command! -nargs=* RT call RipTest(<q-args>)
+function! RipTest(args, fullscreen)
+  let arg_list = split(a:args, " ")
+  let arg_count = len(arg_list)
+  if arg_count == 0
+    call RipgrepFzf('', a:fullscreen)
+  elseif arg_count == 1
+    call RipgrepFzf(arg_list[0], a:fullscreen)
+  else
+    let initial_command = BuildRgCommand(arg_count, arg_list)
+    let spec = {'options': ['--phony']}
+   call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+ endif
+endfunction
+
+command! -nargs=* -bang RT call RipTest(<q-args>, <bang>0)

@@ -14,6 +14,11 @@ DISABLE_AUTO_TITLE="true"
 export ZSH="${HOME}/.oh-my-zsh"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
+# FZF
+export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
+export FZF_CTRL_R_OPTS="--preview=''"
+export FZF_ALT_C_OPTS="--preview='tree -C {} | head -200'"
+export VIM_RG="rg --column --line-number --no-heading --color=always --smart-case --glob '!{.git,node_modules}'"
 # Make homebrew work on Apple Silicone
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_NO_ANALYTICS=1
@@ -35,10 +40,6 @@ alias f="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:p
 alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'
 alias cl='clear'
-# FZF
-export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg,node_modules,.dump,.sql,.cjs.js,cjs.js.map,.esm.js,.esm.js.map}'"
-export FZF_CTRL_R_OPTS="--preview=''"
-export FZF_ALT_C_OPTS="--preview='tree -C {} | head -200'"
 
 # This pipes output of z command (most commonly visited directories to fzf
 j() {
