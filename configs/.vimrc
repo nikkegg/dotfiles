@@ -356,7 +356,6 @@ set hidden
 set nobackup
 set noshowcmd
 set nowritebackup
-set cmdheight=4
 set noswapfile
 set updatetime=300
 set shortmess+=c
