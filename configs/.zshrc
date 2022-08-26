@@ -22,6 +22,10 @@ export VIM_RG="rg --column --line-number --no-heading --color=always --smart-cas
 # Make homebrew work on Apple Silicone
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_NO_ANALYTICS=1
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # Plugins
 plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions)
@@ -40,6 +44,7 @@ alias f="fzf --preview='bat --color=always --style=numbers {}' --bind shift-up:p
 alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'
 alias cl='clear'
+alias pgcli='PAGER=less pgcli'
 
 # This pipes output of z command (most commonly visited directories to fzf
 j() {
@@ -80,8 +85,8 @@ function integrate_zsh_vi_mode_with_fzf() {
 zvm_after_init_commands+=(integrate_zsh_vi_mode_with_fzf)
 source "$ZSH/oh-my-zsh.sh"
 # ASDF path config. Needs to be added after oh-my-zsh is sourced
+# Make zsh vi mode yank into system clipboard
 . $(brew --prefix asdf)/asdf.sh
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source /Users/nikitavishenchiuk/code/bash_utils/entrypoint.sh
