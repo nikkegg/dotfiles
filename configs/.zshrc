@@ -8,8 +8,6 @@ ZVM_VI_ESCAPE_BINDKEY=jk
 EDITOR='vim'
 export PAGER='vim -c PAGER -'
 export MANPAGER="vim -c ASMANPAGER -"
-# Stop naming tmux windows automatically
-DISABLE_AUTO_TITLE="true"
 # Exports
 export ZSH="${HOME}/.oh-my-zsh"
 export LANG=en_US.UTF-8
@@ -26,7 +24,8 @@ export HOMEBREW_NO_ANALYTICS=1
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
+# Prevent zsh from auto-naming tmux windows
+export DISABLE_AUTO_TITLE="true"
 # Plugins
 plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions)
 # Make asdf work

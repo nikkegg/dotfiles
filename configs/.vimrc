@@ -380,9 +380,6 @@ set linebreak " set soft wrapping
 set showbreak=… " show ellipsis at breaking
 set scrolloff=5
 set textwidth=80
-if has('nvim') || has('termguicolors')
-  set termguicolors
-endif
 " Folding
 set foldmethod=syntax
 set foldlevel=99
@@ -392,6 +389,10 @@ set noruler
 set laststatus=0
 set noshowcmd
 set nomore
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
+
 "" Vim plugins
 runtime! ftplugin/man.vim
 packadd cfilter
