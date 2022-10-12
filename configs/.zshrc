@@ -44,7 +44,7 @@ alias configs='vim -c "call MakeRoot()" ${HOME}/dotfiles/configs/.zshrc'
 alias tm='tmux'
 alias cl='clear'
 alias pgcli='PAGER=less pgcli'
-
+alias tree="tree -C --dirsfirst"
 # This pipes output of z command (most commonly visited directories to fzf
 j() {
     [ $# -gt 0 ] && z "$*" && return

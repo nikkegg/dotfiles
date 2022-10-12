@@ -9,6 +9,7 @@
 	append = commit --amend --no-edit
 	last = log -1 HEAD
 	rb = rebase -i origin/master
+	hub = !hub
 
 [push]
 	default = current

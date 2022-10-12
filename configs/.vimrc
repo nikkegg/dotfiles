@@ -106,9 +106,9 @@ function! FernInit() abort
   nmap <buffer> h <Plug>(fern-action-hidden:toggle)
   nmap <buffer> r <Plug>(fern-action-reload)
   nmap <buffer> t <Plug>(fern-action-mark:toggle)
-  nmap <buffer> T <Plug>(fern-action-open:tabedit)
-  nmap <buffer> b <Plug>(fern-action-open:split)
-  nmap <buffer> v <Plug>(fern-action-open:vsplit)
+  nmap <buffer> <C-t> <Plug>(fern-action-open:tabedit)
+  nmap <buffer> <C-b> <Plug>(fern-action-open:split)
+  nmap <buffer> <C-v> <Plug>(fern-action-open:vsplit)
   nmap <buffer> y <Plug>(fern-action-yank)
   nmap <buffer> c <Plug>(fern-action-copy)
   nmap <buffer><nowait> < <Plug>(fern-action-leave)
@@ -218,7 +218,7 @@ augroup END
 """ Custom path to coc-settings fulle
 let g:coc_config_home = '$HOME/dotfiles/configs/'
 """ List of CoC extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-elixir', 'coc-html', 'coc-markdownlint', 'coc-tsserver', 'coc-yaml', 'coc-prettier', 'coc-eslint']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-elixir', 'coc-html', 'coc-markdownlint', 'coc-tsserver', 'coc-yaml', 'coc-prettier', 'coc-eslint', 'coc-docker']
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
 let g:lightline#coc#indicator_hints = 'H '
@@ -271,7 +271,19 @@ augroup END
 "" Vim-qf
 " Allow Ack mapppings - v to vertical split,t to open in a tab, o to open and
 " return, O to open and close quickfix list
-let g:qf_mapping_ack_style = 1
+let g:qf_mapping_ack_style = 0
+let g:qf_auto_resize = 0
+let g:qf_auto_quit = 0
+let g:qf_shorten_path = 3
+
+augroup QuickFix
+  au!
+  au FileType qf nnoremap <silent> <buffer> <C-b> <C-w><CR>
+  au FileType qf nnoremap <silent> <expr> <buffer> <C-v> &splitright ? "\<C-w>\<CR>\<C-w>L\<C-w>p\<C-w>J\<C-w>p" : "\<C-w>\<CR>\<C-w>H\<C-w>p\<C-w>J\<C-w>p"
+  au FileType qf nnoremap <silent> <buffer> <C-t> <C-w><CR><C-w>T
+  nnoremap cc :call GoToEntry()<CR>
+augroup END
+
 "" Vim test
 let g:test#echo_command = 0
 " Run tests async, to view results open quickfix window
@@ -300,6 +312,7 @@ augroup MonorepoPathsVimTest
   autocmd BufEnter ~/code/sylvera-service/packages/usage/* let g:test#project_root = "~/code/sylvera-service/packages/usage"
   autocmd BufEnter ~/code/sylvera-service/packages/users/* let g:test#project_root = "~/code/sylvera-service/packages/users"
   autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:test#project_root = "~/code/sylvera-service/packages/versions-service"
+autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:test#project_root = "~/code/sylvera-service/packages/integration-tests"
 augroup END
 
 augroup AsyncHook
@@ -344,6 +357,12 @@ let g:gitgutter_sign_removed = '|'
 let g:gitgutter_sign_removed_first_line = '|'
 let g:gitgutter_sign_removed_above_and_below = '|'
 let g:gitgutter_sign_modified_removed = '|'
+let g:gitgutter_enabled = 0
+"" Filtetype autocommands
+augroup Filtetypes
+  autocmd!
+au BufNewFile,BufRead *.ejs set filetype=html
+augroup END
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
@@ -364,6 +383,7 @@ syntax on
 let g:seoul256_background = 233
 set background=dark
 colorscheme seoul256
+hi Normal guibg=NONE ctermbg=NONE
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
 set autoread
@@ -391,6 +411,8 @@ set noshowcmd
 set nomore
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+let &t_TI = ""
+let &t_TE = ""
 set termguicolors
 
 "" Vim plugins
@@ -424,14 +446,16 @@ function! GitGutterNextHunkCycle()
 endfunction
 "" Leader key bindings
 :let mapleader = ","
-"Find and replace in a single file
+" Echo current file
+:nnoremap <leader>e :echo @%<CR>
+" Find and replace in a single file
 :nnoremap <leader>r :%s/<c-r>=expand("<cword>")<cr>//g<Left><Left>
 " Does the same as the above but works on visually selected text
 :xnoremap <leader>r y<Esc>:%s/<C-R>"//g<Left><Left>
 " Find in replace in multiple files - work in progress
 :nnoremap <leader>R :Grep <c-r>=expand("<cword>")<cr><cr><cr>:cfdo %s/<c-r>=expand("<cword>")<cr>//ge \| cclose \| wa!<C-Left><C-Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left><Left>
 " Toggle quickfix
-nnoremap <expr> <leader>cc empty(filter(getwininfo(), 'v:val.quickfix')) ? ':copen<CR>' : ':cclose<CR>'
+:nnoremap <silent> <leader>cc :call ToggleQuickfixOrLocationLists()<CR>
 :nnoremap <leader>d dd
 :nnoremap <leader>ev :vsplit ~/dotfiles/configs/.vimrc<cr>
 :nnoremap <leader>sv :source ~/.vimrc<cr>
@@ -497,11 +521,22 @@ let g:tmux_navigator_no_mappings = 1
 :nnoremap top :vert terminal<CR>
 "" Search bindings
 :nnoremap <space>p :Files<CR>
+:nnoremap <space>h :History<CR>
 :nnoremap <space>f :Rg<space>
 "" CoC bindings
 :nnoremap <silent> gd <Plug>(coc-definition)
 :nnoremap <silent> gdv :call CocAction('jumpDefinition', 'vsplit')<cr>
-
+:nnoremap <silent> gdt :call CocAction('jumpDefinition', 'tabe')<cr>
+" Super useful - takes you to return type when called on a function
+:nnoremap <silent> gy <Plug>(coc-type-definition)
+" Places where the target is being used
+:nnoremap <silent> gr <Plug>(coc-references)
+" Less useful - rather than definition, it takes you to a file where export
+" occured
+:nnoremap <silent> gi <Plug>(coc-implementation)
+:nnoremap <silent> ]d <Plug>(coc-diagnostic-prev)
+:nnoremap <silent> [d <Plug>(coc-diagnostic-next)
+command! D :CocDiagnostics<CR>
 "" Scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
@@ -542,6 +577,42 @@ function! TypescriptAbbrev()
   :iabbrev ifa if() {<CR>}<Esc>%i<Left><Left>
   :iabbrev fua function() {<CR>}<Esc>%F(i
   :iabbrev afua async function() {<CR>}<Esc>%F(i
+endfunction
+
+""""""""""""""""""""""""
+"  Custom functions  "
+""""""""""""""""""""""""
+"" Toggle quickfix and location list with the same binding
+" I rarely user location list, mostly by running 3rd party commands like
+" CocDiagnostics which populates location list. This why function below only
+" closes location list, but toggle quickfix list which I use more frequently
+function! ToggleQuickfixOrLocationLists()
+  let quickfix_list_closed = empty(filter(getwininfo(), 'v:val.quickfix'))
+  let location_list_closed = empty(filter(getwininfo(), 'v:val.loclist'))
+  if quickfix_list_closed
+    copen
+  elseif !quickfix_list_closed || !location_list_closed
+    if !quickfix_list_closed
+      cclose
+    end
+    if !location_list_closed 
+      lclose
+    end
+  end
+endfunction
+
+"" Make cc work on line under the cursor in quickfix and location lists
+function! GoToEntry()
+  let quickfix_list_open = !empty(filter(getwininfo(), 'v:val.quickfix'))
+let loclist_open = !empty(filter(getwininfo(), 'v:val.loclist'))
+
+  if loclist_open
+    :.ll
+  elseif quickfix_list_open
+    :.cc
+  else 
+    echo "No active loc or quickfix list"
+  end
 endfunction
 """"""""""""""""""""""""
 "  Custom folding  "

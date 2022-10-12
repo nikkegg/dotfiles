@@ -22,7 +22,7 @@
   "diagnostic.level": "hint",
   "diagnostic.enable": true,
   "diagnostic.checkCurrentLine": true,
-
+  "coc.preferences.useQuickfixForLocations": true,
   "languageserver": {
     "terraform": {
       "command": "terraform-ls",
