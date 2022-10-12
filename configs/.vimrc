@@ -51,6 +51,8 @@ call plug#begin()
   Plug 'kana/vim-textobj-indent'
   " Make qf list editable
   Plug 'romainl/vim-qf'
+  " Preview for files in quickfix
+  Plug 'ronakg/quickr-preview.vim'
   "Embedd vim statusline in tmux status bar
   Plug 'vimpostor/vim-tpipeline'
   " Use vim as a pager. Supports link navigation via Enter/K. Tab S-Tab scrolls
@@ -284,6 +286,11 @@ augroup QuickFix
   nnoremap cc :call GoToEntry()<CR>
 augroup END
 
+"" Quickr-preview
+" Allows to preview files in quickfix. Binding <leaderl>Space
+let g:quickr_preview_on_cursor = 0 
+" Close preview when quickfix is left
+let g:quickr_preview_exit_on_enter = 1
 "" Vim test
 let g:test#echo_command = 0
 " Run tests async, to view results open quickfix window
@@ -528,9 +535,10 @@ let g:tmux_navigator_no_mappings = 1
 :nnoremap <silent> gdv :call CocAction('jumpDefinition', 'vsplit')<cr>
 :nnoremap <silent> gdt :call CocAction('jumpDefinition', 'tabe')<cr>
 " Super useful - takes you to return type when called on a function
-:nnoremap <silent> gy <Plug>(coc-type-definition)
+:nnoremap <silent> gy :let g:quickr_preview_on_cursor = 1<CR> <Plug>(coc-type-definition)
+
 " Places where the target is being used
-:nnoremap <silent> gr <Plug>(coc-references)
+:nnoremap <silent> gr :let g:quickr_preview_on_cursor = 1<CR> <Plug>(coc-references)
 " Less useful - rather than definition, it takes you to a file where export
 " occured
 :nnoremap <silent> gi <Plug>(coc-implementation)
@@ -593,10 +601,12 @@ function! ToggleQuickfixOrLocationLists()
     copen
   elseif !quickfix_list_closed || !location_list_closed
     if !quickfix_list_closed
-      cclose
+      let g:quickr_preview_on_cursor = 0
+      cclose | pclose
     end
     if !location_list_closed 
-      lclose
+      let g:quickr_preview_on_cursor = 0
+      lclose | pclose
     end
   end
 endfunction
