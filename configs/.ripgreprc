@@ -1,0 +1,4 @@
+--type-add
+j:*.{json}*
+--type-add
+s:*{spec}*
