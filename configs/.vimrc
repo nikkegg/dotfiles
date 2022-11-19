@@ -425,7 +425,8 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let &t_TI = ""
 let &t_TE = ""
 set termguicolors
-
+set wildmenu
+set wildmode=longest,full
 "" Vim plugins
 runtime! ftplugin/man.vim
 packadd cfilter
