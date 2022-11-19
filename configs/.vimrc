@@ -3,6 +3,7 @@
 """"""""""""""""""""""""
 call plug#begin()
 " Run asyn jobs from inside vim 😍
+  Plug 'dracula/vim', 
   Plug 'skywind3000/asyncrun.vim'
   " Theme
   Plug 'junegunn/seoul256.vim'
@@ -40,11 +41,13 @@ call plug#begin()
   Plug 'christoomey/vim-system-copy'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-dispatch'
   Plug 'zivyangll/git-blame.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-repeat'
   Plug 'ryanoasis/vim-devicons'
+  Plug 'preservim/vimux'
   " Text objects
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
@@ -59,7 +62,6 @@ call plug#begin()
   " man pages
   Plug 'lambdalisue/vim-pager'
   Plug 'lambdalisue/vim-manpager'
-  Plug 'powerman/vim-plugin-AnsiEsc'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -294,7 +296,7 @@ let g:quickr_preview_exit_on_enter = 1
 "" Vim test
 let g:test#echo_command = 0
 " Run tests async, to view results open quickfix window
-let g:test#strategy = 'asyncrun_background'
+let g:test#strategy = 'vimux'
 " Enables :Jest command
 let g:test#runner_commands = ['Jest']
 " Tells vim test to use script defined in package.json
@@ -320,6 +322,7 @@ augroup MonorepoPathsVimTest
   autocmd BufEnter ~/code/sylvera-service/packages/users/* let g:test#project_root = "~/code/sylvera-service/packages/users"
   autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:test#project_root = "~/code/sylvera-service/packages/versions-service"
 autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:test#project_root = "~/code/sylvera-service/packages/integration-tests"
+autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:test#project_root = "~/code/sylvera-service/packages/s3-cache"
 augroup END
 
 augroup AsyncHook
@@ -355,7 +358,7 @@ augroup Tpipeline
   autocmd User CocStatusChange call tpipeline#update()
 augroup END
 "" Gitgutter
-let g:gitgutter_preview_win_floating = 1
+let g:gitgutter_preview_win_floating = 0
 let g:gitgutter_map_keys = 0
 let g:gitgutter_set_sign_backgrounds = 1
 let g:gitgutter_sign_added = '|'
@@ -364,7 +367,7 @@ let g:gitgutter_sign_removed = '|'
 let g:gitgutter_sign_removed_first_line = '|'
 let g:gitgutter_sign_removed_above_and_below = '|'
 let g:gitgutter_sign_modified_removed = '|'
-let g:gitgutter_enabled = 0
+let g:gitgutter_enabled = 1
 "" Filtetype autocommands
 augroup Filtetypes
   autocmd!
@@ -387,9 +390,10 @@ set updatetime=300
 set shortmess+=c
 syntax on
 " Colorscheme and cursor
-let g:seoul256_background = 233
+" let g:seoul256_background = 233
 set background=dark
-colorscheme seoul256
+" colorscheme seoul256
+colorscheme dracula
 hi Normal guibg=NONE ctermbg=NONE
 let &t_SI = "\e[6 q"
 let &t_EI = "\e[2 q"
@@ -436,13 +440,15 @@ augroup END
 """"""""""""""""""""""""
 "" Gitgutter bindings
 " Hunk text object
-omap ih <Plug>(GitGutterTextObjectInnerPending)
-omap ah <Plug>(GitGutterTextObjectOuterPending)
-xmap ih <Plug>(GitGutterTextObjectInnerVisual)
-xmap ah <Plug>(GitGutterTextObjectOuterVisual)
-nnoremap <space>h :call GitGutterNextHunkCycle()<CR> 
-nnoremap <space>H <Plug>(GitGutterPrevHunk)
+" omap ih <Plug>(GitGutterTextObjectInnerPending)
+" omap ah <Plug>(GitGutterTextObjectOuterPending)
+" xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+" xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+nnoremap [h :call GitGutterNextHunkCycle()<CR> 
+nnoremap ]h <Plug>(GitGutterPrevHunk)
 nnoremap gph <Plug>(GitGutterPreviewHunk)
+nnoremap <Leader>hs <Plug>(GitGutterStageHunk)
+nnoremap <Leader>hu <Plug>(GitGutterUndoHunk)
 function! GitGutterNextHunkCycle()
   let line = line('.')
   silent! GitGutterNextHunk
@@ -485,6 +491,9 @@ nnoremap <leader>tf :TestFile<CR>
 nnoremap <leader>ts :TestSuite<CR>
 nnoremap <leader>tl :TestLast<CR>
 nnoremap <leader>tv :TestVisit<CR>
+" Copy current buffer's path
+:nmap <silent> <leader>cpa :let @+ = expand("%")<CR>
+
 "" Move lines up and down like in VScode
 nnoremap K :m .-2<CR>==
 nnoremap J :m .+1<CR>==
@@ -506,8 +515,6 @@ xnoremap <silent> s* "sy:let @/=@s<CR>cgn
 :nnoremap <silent> $ g$
 :nnoremap <silent> 0 ^
 :nnoremap <silent> ^ 0
-" Copy current buffer's path
-:nmap <silent> <leader>cpa :let @+ = expand("%")<CR>
 "" Split management
 " This mappings allow to move through vertical splits and tmux splits
 let g:tmux_navigator_no_mappings = 1
@@ -530,6 +537,7 @@ let g:tmux_navigator_no_mappings = 1
 :nnoremap <space>p :Files<CR>
 :nnoremap <space>h :History<CR>
 :nnoremap <space>f :Rg<space>
+:nnoremap <space>r :Rg <C-r><C-w><CR>
 "" CoC bindings
 :nnoremap <silent> gd <Plug>(coc-definition)
 :nnoremap <silent> gdv :call CocAction('jumpDefinition', 'vsplit')<cr>
@@ -581,7 +589,7 @@ function! TypescriptAbbrev()
   :iabbrev ca const=;<Left><Left>
   :iabbrev la let=;<Left><Left>
   :iabbrev ima import {} from '';<Left><Left>
-  :iabbrev cla console.log();<Left><Left>
+  :iabbrev cla console.log()<Left>
   :iabbrev ifa if() {<CR>}<Esc>%i<Left><Left>
   :iabbrev fua function() {<CR>}<Esc>%F(i
   :iabbrev afua async function() {<CR>}<Esc>%F(i
@@ -617,9 +625,9 @@ function! GoToEntry()
 let loclist_open = !empty(filter(getwininfo(), 'v:val.loclist'))
 
   if loclist_open
-    :.ll
+    :.ll | pclose
   elseif quickfix_list_open
-    :.cc
+    :.cc | pclose
   else 
     echo "No active loc or quickfix list"
   end
@@ -691,6 +699,12 @@ augroup END
 """"""""""""""""""""""""
 "   WIP   "
 """"""""""""""""""""""""
+"" text object indent
+" omap ia <Plug>(textobj-indent-a)
+" omap  <Plug>(GitGutterTextObjectOuterPending)
+" xmap ih <Plug>(GitGutterTextObjectInnerVisual)
+" xmap ah <Plug>(GitGutterTextObjectOuterVisual)
+
 "" Ripgrep
 "Attempt to make ripgrep respect usual flags, but also to support regex in-built regex engine
 function! RipgrepFzf(query, fullscreen)
@@ -744,3 +758,9 @@ function! RipTest(args, fullscreen)
 endfunction
 
 command! -nargs=* -bang RT call RipTest(<q-args>, <bang>0)
+
+"" Jest highlighting generateProjectUpdateEmails
+highlight JestTestPass ctermbg='green'
+highlight JestTestFail ctermbg='red'
+syn match JestTestPass '/*.yarn.*/'
+syn match TestError "/*.FAIL.*/"

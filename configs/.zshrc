@@ -17,6 +17,7 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!{.git,.svn,.hg
 export FZF_CTRL_R_OPTS="--preview=''"
 export FZF_ALT_C_OPTS="--preview='tree -C {} | head -200'"
 export VIM_RG="rg --column --line-number --no-heading --color=always --smart-case --glob '!{.git,node_modules}'"
+export RIPGREP_CONFIG_PATH="$HOME/dotfiles/configs/.ripgreprc"
 # Make homebrew work on Apple Silicone
 eval "$(/opt/homebrew/bin/brew shellenv)"
 export HOMEBREW_NO_ANALYTICS=1
@@ -26,6 +27,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 # Prevent zsh from auto-naming tmux windows
 export DISABLE_AUTO_TITLE="true"
+# Testing zsh config
 # Plugins
 plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions)
 # Make asdf work
@@ -65,6 +67,15 @@ weather () {
     curl "https://wttr.in/${1}"
 }
 
+kill_on_port() {
+  if [ $# -lt 1 ]
+    then
+      echo "Valid port number required"
+      return
+  fi
+  kill -9 $(lsof -t -i:"$1")
+}
+
 #Editor
 code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
@@ -83,6 +94,7 @@ function integrate_zsh_vi_mode_with_fzf() {
 
 zvm_after_init_commands+=(integrate_zsh_vi_mode_with_fzf)
 source "$ZSH/oh-my-zsh.sh"
+unsetopt hist_verify
 # ASDF path config. Needs to be added after oh-my-zsh is sourced
 # Make zsh vi mode yank into system clipboard
 . $(brew --prefix asdf)/asdf.sh

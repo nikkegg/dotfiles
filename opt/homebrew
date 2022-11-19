@@ -4,7 +4,6 @@ bat
 docker
 fzf
 git
-git-delta
 hashicorp/tap/terraform-ls
 htop
 httpie
