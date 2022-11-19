@@ -2,9 +2,7 @@
 "  Plugins  "
 """"""""""""""""""""""""
 call plug#begin()
-" Run asyn jobs from inside vim 😍
   Plug 'dracula/vim', 
-  Plug 'skywind3000/asyncrun.vim'
   " Theme
   Plug 'junegunn/seoul256.vim'
   " Normal vim motions with seeking
@@ -13,6 +11,7 @@ call plug#begin()
   Plug 'mbbill/undotree'
   " Magic
   Plug 'vim-test/vim-test'
+  Plug 'christoomey/vim-tmux-runner'
   " Filetree manager, git status for changes files, nerdtree icons
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/nerdfont.vim'
@@ -56,8 +55,6 @@ call plug#begin()
   Plug 'romainl/vim-qf'
   " Preview for files in quickfix
   Plug 'ronakg/quickr-preview.vim'
-  "Embedd vim statusline in tmux status bar
-  Plug 'vimpostor/vim-tpipeline'
   " Use vim as a pager. Supports link navigation via Enter/K. Tab S-Tab scrolls
   " man pages
   Plug 'lambdalisue/vim-pager'
@@ -296,7 +293,7 @@ let g:quickr_preview_exit_on_enter = 1
 "" Vim test
 let g:test#echo_command = 0
 " Run tests async, to view results open quickfix window
-let g:test#strategy = 'vimux'
+let g:test#strategy = 'vtr'
 " Enables :Jest command
 let g:test#runner_commands = ['Jest']
 " Tells vim test to use script defined in package.json
@@ -351,12 +348,12 @@ function! TestStatus() abort
   return g:testing_status
 endfunction
 "" Tpipeline
-let g:tpipeline_cursor_move=1
-augroup Tpipeline
-  autocmd!
-  autocmd User CocDiagnosticChange call tpipeline#update()
-  autocmd User CocStatusChange call tpipeline#update()
-augroup END
+" let g:tpipeline_cursor_move=1
+" augroup Tpipeline
+"   autocmd!
+"   autocmd User CocDiagnosticChange call tpipeline#update()
+"   autocmd User CocStatusChange call tpipeline#update()
+" augroup END
 "" Gitgutter
 let g:gitgutter_preview_win_floating = 0
 let g:gitgutter_map_keys = 0
@@ -415,11 +412,11 @@ set textwidth=80
 set foldmethod=syntax
 set foldlevel=99
 " Disable statusline (embed in tmux status bar instead)
-set noshowmode
-set noruler
-set laststatus=0
-set noshowcmd
-set nomore
+" set noshowmode
+" set noruler
+" set laststatus=0
+" set noshowcmd
+" set nomore
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let &t_TI = ""
