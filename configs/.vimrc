@@ -291,9 +291,14 @@ let g:quickr_preview_on_cursor = 0
 " Close preview when quickfix is left
 let g:quickr_preview_exit_on_enter = 1
 "" Vim test
+function! SplitStrategy(cmd)
+  echo a:cmd
+  call system("tmux send-keys -t select-pane-l ".a:cmd." ENTER")
+endfunction
+let g:test#custom_strategies = {'terminal_split': function('SplitStrategy')}
 let g:test#echo_command = 0
 " Run tests async, to view results open quickfix window
-let g:test#strategy = 'vtr'
+let g:test#strategy = 'terminal_split'
 " Enables :Jest command
 let g:test#runner_commands = ['Jest']
 " Tells vim test to use script defined in package.json
@@ -305,7 +310,8 @@ let g:test#enabled_runners =  ["javascript#jest"]
 augroup MonorepoPathsVimTest
   autocmd!
   autocmd BufEnter ~/code/sylvera-service/packages/monitoring/* let g:test#project_root = "~/code/sylvera-service/packages/monitoring"
-  autocmd BufEnter ~/code/sylvera-service/packages/auth/* let g:test#project_root = "~/code/sylvera-service/packages/auth"
+  autocmd BufEnter ~/code/sylvera-service/packages/auth/* let g:test#javascript#jest#executable = 'yarn workspace @sylvera/auth test'
+
   autocmd BufEnter ~/code/sylvera-service/packages/cache-projects/* let g:test#project_root = "~/code/sylvera-service/packages/cache-projects"
   autocmd BufEnter ~/code/sylvera-service/packages/cognito/* let g:test#project_root = "~/code/sylvera-service/packages/cognito"
   autocmd BufEnter ~/code/sylvera-service/packages/container/* let g:test#project_root = "~/code/sylvera-service/packages/container"
