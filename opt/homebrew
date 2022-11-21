@@ -18,3 +18,5 @@ tmux
 tree
 vim
 yarn
+jq
+diff-so-fancy
