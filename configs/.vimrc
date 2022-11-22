@@ -118,7 +118,8 @@ endfunction
 
 augroup FernGroup
   autocmd!
-  autocmd FileType fern setlocal norelativenumber | setlocal nonumber | call FernInit()
+  autocmd FileType fern setlocal norelativenumber | setlocal nonumber | set laststatus=0 | call FernInit()
+  autocmd BufLeave * if &ft ==# 'fern' | set laststatus=2 | endif
 augroup END
 "" Vim-Commentary
 augroup js_comment
