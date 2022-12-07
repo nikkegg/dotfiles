@@ -194,14 +194,21 @@ augroup CocSymbolHighlight
 augroup END
 
 """ Hover
-nnoremap <silent> SD :call ShowDocumentation()<CR>
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
+nnoremap <silent> SD :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
   else
-    call feedkeys('SD', 'in')
+    call CocAction('doHover')
   endif
 endfunction
+" function! ShowDocumentation()
+"   if CocAction('hasProvider', 'hover')
+"     call CocActionAsync('doHover')
+"   else
+"     call feedkeys('SD', 'in')
+"   endif
+" endfunction
 nnoremap <silent><space>d :call CocAction('jumpDefinition', v:false)<CR>
 """ Allows scrolling through pop-ups
 if has('nvim-0.4.0') || has('patch-8.2.0750')
@@ -377,6 +384,9 @@ augroup Filtetypes
   autocmd!
 au BufNewFile,BufRead *.ejs set filetype=html
 augroup END
+"" Vim polyglot
+" Conceal quotes in json files
+let g:vim_json_syntax_conceal = 1
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
@@ -581,6 +591,9 @@ endfunction
 function! MyFileType()
   return winwidth(0) > 70 ? (WebDevIconsGetFileTypeSymbol(). " ". expand("%:t")) : ''
 endfunction
+"" Zoom in on vim split
+noremap Zz <c-w>_ \| <c-w>\|
+noremap Zo <c-w>=
 """"""""""""""""""""""""
 "  Abbreviations  "
 """"""""""""""""""""""""

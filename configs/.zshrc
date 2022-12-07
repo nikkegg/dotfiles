@@ -47,6 +47,7 @@ alias tm='tmux'
 alias cl='clear'
 alias pgcli='PAGER=less pgcli'
 alias tree="tree -C --dirsfirst"
+alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
 # This pipes output of z command (most commonly visited directories to fzf
 j() {
     [ $# -gt 0 ] && z "$*" && return
