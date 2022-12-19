@@ -234,18 +234,51 @@ let g:lightline#coc#indicator_hints = 'H '
 let g:lightline#coc#indicator_info = 'I '
 let g:lightline#coc#indicator_errors = 'E '
 let g:lightline#coc#indicator_warnings = 'W '
+
+function! LightlineLineinfo() abort
+    if winwidth(0) < 60
+        return ''
+    endif
+
+    let l:current_line = printf('%-3s', line('.'))
+    let l:max_line = printf('%-3s', line('$'))
+    let l:lineinfo = ' ' . l:current_line . '/' . l:max_line
+    return l:lineinfo
+endfunction
+
+function! LightlineEncodinginfo() abort
+    if winwidth(0) < 86
+        return ''
+    endif
+
+    let l:encodinginfo = &fenc !=# '' ? &fenc : &enc
+    return l:encodinginfo
+endfunction
+" Display branch symbol in statusline
+function! FancyGitHead()
+  return FugitiveHead() ." ".""
+endfunction
+
+" Add devicon to lightline
+function! MyFileType()
+  return winwidth(0) > 70 ? (WebDevIconsGetFileTypeSymbol(). " ". expand("%:t")) : ''
+endfunction
+
 let g:lightline = {
   \ 'colorscheme': 'seoul256',
 	\ 'active': {
 	\   'left': [ [ 'mode', 'paste', 'coc_info', 'coc_hints', 'coc_errors', 'coc_warnings', 'coc_ok'],
 	\             [ 'readonly', 'filetype', 'modified' ]],
-	\   'right': [ [ 'percent' ],
-	\              ['teststatus', 'gitbranch', 'fileencoding'] ]
+	\   'right': [ 
+  \              [ 'mylineinfo'],
+	\              ['teststatus', 'gitbranch', 'encodinginfo'] ]
 	\ },
   \ 'component_function': {
   \   'gitbranch': 'FancyGitHead',
   \   'filetype': 'MyFileType',
-  \   'teststatus': 'TestStatus'
+  \   'teststatus': 'TestStatus',
+  \   'mylineinfo': 'LightlineLineinfo',
+  \   'encodinginfo': 'LightlineEncodinginfo'
   \ },
   \ }
 " Autcommand for lightline update
@@ -438,9 +471,35 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 let &t_TI = ""
 let &t_TE = ""
-set termguicolors
 set wildmenu
 set wildmode=longest,full
+
+" Vim in tmux specific conf
+set ttymouse=sgr
+
+" Enable true colors, see  :help xterm-true-color
+let &termguicolors = v:true
+let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
+" Enable bracketed paste mode, see  :help xterm-bracketed-paste
+let &t_BE = "\<Esc>[?2004h"
+let &t_BD = "\<Esc>[?2004l"
+let &t_PS = "\<Esc>[200~"
+let &t_PE = "\<Esc>[201~"
+
+" Enable focus event tracking, see  :help xterm-focus-event
+let &t_fe = "\<Esc>[?1004h"
+let &t_fd = "\<Esc>[?1004l"
+execute "set <FocusGained>=\<Esc>[I"
+execute "set <FocusLost>=\<Esc>[O"
+
+" Enable modified arrow keys, see  :help arrow_modifiers
+execute "silent! set <xUp>=\<Esc>[@;*A"
+execute "silent! set <xDown>=\<Esc>[@;*B"
+execute "silent! set <xRight>=\<Esc>[@;*C"
+execute "silent! set <xLeft>=\<Esc>[@;*D"
+
 "" Vim plugins
 runtime! ftplugin/man.vim
 packadd cfilter
@@ -581,15 +640,6 @@ command! UT :UndotreeToggle
 function! MakeRoot()
   :cd %:p:h
   :setl foldlevel=0
-endfunction
-"" Display branch symbol in statusline
-function! FancyGitHead()
-  return FugitiveHead()." ".""
-endfunction
-
-"" Add devicon to lightline
-function! MyFileType()
-  return winwidth(0) > 70 ? (WebDevIconsGetFileTypeSymbol(). " ". expand("%:t")) : ''
 endfunction
 "" Zoom in on vim split
 noremap Zz <c-w>_ \| <c-w>\|
@@ -777,8 +827,3 @@ endfunction
 
 command! -nargs=* -bang RT call RipTest(<q-args>, <bang>0)
 
-"" Jest highlighting generateProjectUpdateEmails
-highlight JestTestPass ctermbg='green'
-highlight JestTestFail ctermbg='red'
-syn match JestTestPass '/*.yarn.*/'
-syn match TestError "/*.FAIL.*/"
