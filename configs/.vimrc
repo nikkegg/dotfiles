@@ -394,13 +394,6 @@ endfunction
 function! TestStatus() abort
   return g:testing_status
 endfunction
-"" Tpipeline
-" let g:tpipeline_cursor_move=1
-" augroup Tpipeline
-"   autocmd!
-"   autocmd User CocDiagnosticChange call tpipeline#update()
-"   autocmd User CocStatusChange call tpipeline#update()
-" augroup END
 "" Gitgutter
 let g:gitgutter_preview_win_floating = 0
 let g:gitgutter_map_keys = 0
