@@ -48,10 +48,21 @@ alias cl='clear'
 alias pgcli='PAGER=less pgcli'
 alias tree="tree -C --dirsfirst"
 alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
-# This pipes output of z command (most commonly visited directories to fzf
+# This pipes output of z command (most commonly visited directories) to fzf
 j() {
     [ $# -gt 0 ] && z "$*" && return
     cd "$(z -l 2>&1 | fzf --preview '' --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
+}
+
+# This allows to use rg to grep files name. Second arg is path to grep in
+# First arg is grep pattern, second optional arg is a directory
+rgf() {
+  if [ -z "$2" ]
+  then
+      rg --files | rg "$1"
+  else
+      rg --files "$2" | rg "$1"
+  fi
 }
 
 _fzf_comprun() {
