@@ -329,23 +329,48 @@ let g:quickr_preview_exit_on_enter = 1
 "" Vim test
 " Initialize runner command, which will be mutated whenever file in a package is opened
 let g:workspace_test_runner = ''
-
-function! SplitStrategy(cmd)
+let g:last_test_in_workspace = ''
+" Initialize last test command, so that can use TestLast regardless of your
+" location in monorepo
+function! TmuxSplitNearestTestingStrategy(cmd)
   let l:test_command = g:workspace_test_runner." ".a:cmd
-" identify deprecated -- flag which breaks TestNearest
-  let l:test_command_split = split(l:test_command, '-- ')
-  let l:command_length = len(l:test_command_split)
-  if l:command_length == 1
-    call system("source $HOME/vim-test.sh && vim_test ".shellescape(l:test_command))
-  elseif l:command_length > 1
-    let l:command_with_no_flag = join(l:test_command_split[0:-2], " ")
-    call system("source $HOME/vim-test.sh && vim_test ".shellescape(l:command_with_no_flag))
-  endif
+  let l:regex_and_path_split = split(split(l:test_command, ' -t ')[-1], '-- ')
+  let l:test_regex = l:regex_and_path_split[0]
+  let l:test_file_path = l:regex_and_path_split[1]
+  let l:test_command = g:workspace_test_runner." ".l:test_file_path." -t ".l:test_regex
+  let g:last_test_in_workspace = l:test_command
+  call system("source $HOME/vim-test.sh && vim_test ".shellescape(l:test_command))
 endfunction
 
-let g:test#custom_strategies = {'terminal_split': function('SplitStrategy')}
+function! TmuxSplitFileTestingStrategy(cmd)
+  let l:test_command = g:workspace_test_runner." ".a:cmd
+  let l:test_file_path = split(l:test_command, '-- ')[-1]
+  let l:test_command = g:workspace_test_runner." ".l:test_file_path
+  let g:last_test_in_workspace = l:test_command
+  call system("source $HOME/vim-test.sh && vim_test ".shellescape(l:test_command))
+endfunction
+
+function! TmuxSplitSuiteTestingStrategy(cmd)
+  let l:test_command = g:workspace_test_runner." ".a:cmd
+  let g:last_test_in_workspace = l:test_command
+  call system("source $HOME/vim-test.sh && vim_test ".shellescape(l:test_command))
+endfunction
+
+function! TmuxSplitLastTestingStrategy()
+  call system("source $HOME/vim-test.sh && vim_test ".shellescape(g:last_test_in_workspace))
+endfunction
+
+function! MonorepoTestLast()
+  call system("source $HOME/vim-test.sh && vim_test ".shellescape(g:last_test_command))
+endfunction
+
+let g:test#custom_strategies = {'tmux_vertical_split_nearest': function('TmuxSplitNearestTestingStrategy'), 'tmux_vertical_split_file': function('TmuxSplitFileTestingStrategy'), 'tmux_vertical_split_suite': function('TmuxSplitSuiteTestingStrategy'), 'tmux_vertical_split_last': function('TmuxSplitLastTestingStrategy')}
 let g:test#echo_command = 0
-let g:test#strategy = 'terminal_split'
+let test#strategy = {
+  \ 'nearest': 'tmux_vertical_split_nearest',
+  \ 'file':    'tmux_vertical_split_file',
+  \ 'suite':   'tmux_vertical_split_suite'
+\}
 " Tells vim test to use script defined in package.json
 let g:test#javascript#jest#executable = ''
 let g:test#runner_commands = ['Jest']
@@ -536,7 +561,7 @@ nnoremap <leader>q :q!<CR>
 nnoremap <leader>tn :TestNearest<CR>
 nnoremap <leader>tf :TestFile<CR>
 nnoremap <leader>ts :TestSuite<CR>
-nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tl :call TmuxSplitLastTestingStrategy()<CR>
 nnoremap <leader>tv :TestVisit<CR>
 " Copy current buffer's path
 :nmap <silent> <leader>cpa :let @+ = expand("%")<CR>
