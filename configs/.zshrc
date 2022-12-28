@@ -113,3 +113,4 @@ unsetopt hist_verify
 
 
 source /Users/nikitavishenchiuk/code/bash_utils/entrypoint.sh
+

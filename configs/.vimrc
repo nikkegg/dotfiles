@@ -2,16 +2,14 @@
 "  Plugins  "
 """"""""""""""""""""""""
 call plug#begin()
+" Theme
   Plug 'dracula/vim', 
-  " Theme
-  Plug 'junegunn/seoul256.vim'
   " Normal vim motions with seeking
   Plug 'wellle/targets.vim'
   " View entire editing tree
   Plug 'mbbill/undotree'
   " Magic
   Plug 'vim-test/vim-test'
-  Plug 'christoomey/vim-tmux-runner'
   " Filetree manager, git status for changes files, nerdtree icons
   Plug 'lambdalisue/fern.vim'
   Plug 'lambdalisue/nerdfont.vim'
@@ -40,13 +38,11 @@ call plug#begin()
   Plug 'christoomey/vim-system-copy'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'tpope/vim-commentary'
-  Plug 'tpope/vim-dispatch'
   Plug 'zivyangll/git-blame.vim'
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-repeat'
   Plug 'ryanoasis/vim-devicons'
-  Plug 'preservim/vimux'
   " Text objects
   Plug 'kana/vim-textobj-user'
   Plug 'kana/vim-textobj-line'
@@ -271,12 +267,11 @@ let g:lightline = {
 	\             [ 'readonly', 'filetype', 'modified' ]],
 	\   'right': [ 
   \              [ 'mylineinfo'],
-	\              ['teststatus', 'gitbranch', 'encodinginfo'] ]
+	\              [ 'gitbranch', 'encodinginfo'] ]
 	\ },
   \ 'component_function': {
   \   'gitbranch': 'FancyGitHead',
   \   'filetype': 'MyFileType',
-  \   'teststatus': 'TestStatus',
   \   'mylineinfo': 'LightlineLineinfo',
   \   'encodinginfo': 'LightlineEncodinginfo'
   \ },
@@ -332,68 +327,53 @@ let g:quickr_preview_on_cursor = 0
 " Close preview when quickfix is left
 let g:quickr_preview_exit_on_enter = 1
 "" Vim test
+" Initialize runner command, which will be mutated whenever file in a package is opened
+let g:workspace_test_runner = ''
+
 function! SplitStrategy(cmd)
-  echo a:cmd
-  call system("tmux send-keys -t select-pane-l ".a:cmd." ENTER")
+  let l:test_command = g:workspace_test_runner." ".a:cmd
+" identify deprecated -- flag which breaks TestNearest
+  let l:test_command_split = split(l:test_command, '-- ')
+  let l:command_length = len(l:test_command_split)
+  if l:command_length == 1
+    call system("source $HOME/vim-test.sh && vim_test ".shellescape(l:test_command))
+  elseif l:command_length > 1
+    let l:command_with_no_flag = join(l:test_command_split[0:-2], " ")
+    call system("source $HOME/vim-test.sh && vim_test ".shellescape(l:command_with_no_flag))
+  endif
 endfunction
+
 let g:test#custom_strategies = {'terminal_split': function('SplitStrategy')}
 let g:test#echo_command = 0
-" Run tests async, to view results open quickfix window
 let g:test#strategy = 'terminal_split'
-" Enables :Jest command
-let g:test#runner_commands = ['Jest']
 " Tells vim test to use script defined in package.json
-let g:test#javascript#jest#executable = 'yarn test'
+let g:test#javascript#jest#executable = ''
+let g:test#runner_commands = ['Jest']
 let g:test#javascript#runner = 'jest'
 " Only load jest
 let g:test#enabled_runners =  ["javascript#jest"]
-" This is a bit annoying, but is required to make vim-test work with monorepos. Essentially this will cd into the relevant package before running tests. Avoids 10k lines of empty output when jest is trying to run test in other packages.
+" This is a bit annoying, but is required to make vim-test work with monorepos. It will change test command based on test file in focus to yarn wortkspace @sylvera/<workspace>. This is then used by vim-test.sh to run test in horizontal tmux splits
 augroup MonorepoPathsVimTest
   autocmd!
-  autocmd BufEnter ~/code/sylvera-service/packages/monitoring/* let g:test#project_root = "~/code/sylvera-service/packages/monitoring"
-  autocmd BufEnter ~/code/sylvera-service/packages/auth/* let g:test#javascript#jest#executable = 'yarn workspace @sylvera/auth test'
+  autocmd BufEnter ~/code/sylvera-service/packages/monitoring/* let g:workspace_test_runner = "yarn workspace @sylvera/monitoring"
+  autocmd BufEnter ~/code/sylvera-service/packages/auth/* let g:workspace_test_runner = "yarn workspace @sylvera/auth test"
 
-  autocmd BufEnter ~/code/sylvera-service/packages/cache-projects/* let g:test#project_root = "~/code/sylvera-service/packages/cache-projects"
-  autocmd BufEnter ~/code/sylvera-service/packages/cognito/* let g:test#project_root = "~/code/sylvera-service/packages/cognito"
-  autocmd BufEnter ~/code/sylvera-service/packages/container/* let g:test#project_root = "~/code/sylvera-service/packages/container"
-  autocmd BufEnter ~/code/sylvera-service/packages/database-projects/* let g:test#project_root = "~/code/sylvera-service/packages/database-projects"
-  autocmd BufEnter ~/code/sylvera-service/packages/emails/* let g:test#project_root = "~/code/sylvera-service/packages/emails"
-  autocmd BufEnter ~/code/sylvera-service/packages/maps/* let g:test#project_root = "~/code/sylvera-service/packages/maps"
-  autocmd BufEnter ~/code/sylvera-service/packages/notifications/* let g:test#project_root = "~/code/sylvera-service/packages/notifications"
-  autocmd BufEnter ~/code/sylvera-service/packages/projects/* let g:test#project_root = "~/code/sylvera-service/packages/projects"
-  autocmd BufEnter ~/code/sylvera-service/packages/shared/* let g:test#project_root = "~/code/sylvera-service/packages/shared"
-  autocmd BufEnter ~/code/sylvera-service/packages/usage/* let g:test#project_root = "~/code/sylvera-service/packages/usage"
-  autocmd BufEnter ~/code/sylvera-service/packages/users/* let g:test#project_root = "~/code/sylvera-service/packages/users"
-  autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:test#project_root = "~/code/sylvera-service/packages/versions-service"
-autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:test#project_root = "~/code/sylvera-service/packages/integration-tests"
-autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:test#project_root = "~/code/sylvera-service/packages/s3-cache"
+  autocmd BufEnter ~/code/sylvera-service/packages/cache-projects/* let g:workspace_test_runner = "yarn workspace @sylvera/cache-projects test"
+  autocmd BufEnter ~/code/sylvera-service/packages/cognito/* let g:workspace_test_runner = "yarn workspace @sylvera/cognito test"
+  autocmd BufEnter ~/code/sylvera-service/packages/container/* let g:workspace_test_runner = "yarn workspace @sylvera/container test"
+  autocmd BufEnter ~/code/sylvera-service/packages/database-projects/* let g:workspace_test_runner = "yarn workspace @sylvera/database-projects test"
+  autocmd BufEnter ~/code/sylvera-service/packages/emails/* let g:workspace_test_runner = "yarn workspace @sylvera/emails test"
+  autocmd BufEnter ~/code/sylvera-service/packages/maps/* let g:workspace_test_runner = "yarn workspace @sylvera/maps test"
+  autocmd BufEnter ~/code/sylvera-service/packages/notifications/* let g:workspace_test_runner = "yarn workspace @sylvera/notifications test"
+  autocmd BufEnter ~/code/sylvera-service/packages/projects/* let g:workspace_test_runner = "yarn workspace @sylvera/projects test"
+  autocmd BufEnter ~/code/sylvera-service/packages/shared/* let g:workspace_test_runner = "yarn workspace @sylvera/shared test"
+  autocmd BufEnter ~/code/sylvera-service/packages/usage/* let g:workspace_test_runner = "yarn workspace @sylvera/usage test"
+  autocmd BufEnter ~/code/sylvera-service/packages/users/* let g:workspace_test_runner = "yarn workspace @sylvera/users test"
+  autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:workspace_test_runner = "yarn workspace @sylvera/versions-service test"
+autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:workspace_test_runner = "yarn workspace @sylvera/integration-tests test"
+autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:workspace_test_runner = "yarn workspace @sylvera/s3-cache test"
 augroup END
 
-augroup AsyncHook
-  autocmd!
-  autocmd User AsyncRunStop call TestFinished()
-  autocmd User AsyncRunPre call TestStarted()
-augroup END
-" initially empty status
-let g:testing_status = ''
-
-function! TestStarted() abort
-  let g:testing_status = 'Running ⌛'
-endfunction
-
-function! TestFinished() abort
-  let job_status = g:asyncrun_status
-  if job_status == "success"
-    let g:testing_status = 'Complete ✅ '
-  endif
-  if job_status == "failure"
-    let g:testing_status = 'Failed ☠️ '
-  endif
-endfunction
-" Used in lightline
-function! TestStatus() abort
-  return g:testing_status
-endfunction
 "" Gitgutter
 let g:gitgutter_preview_win_floating = 0
 let g:gitgutter_map_keys = 0

@@ -4,3 +4,5 @@ configs/.vimrc .vimrc
 configs/.tmux.conf .tmux.conf
 configs/.zshrc .zshrc
 configs/.fzf.zsh .fzf.zsh
+configs/.ripgreprc .ripgreprc
+configs/vim-test.sh vim-test.sh
