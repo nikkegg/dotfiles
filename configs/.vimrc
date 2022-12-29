@@ -33,14 +33,14 @@ call plug#begin()
   Plug 'sheerun/vim-polyglot'
   Plug 'itchyny/lightline.vim'
   Plug 'tmux-plugins/vim-tmux'
-  Plug 'junegunn/goyo.vim'
-  Plug 'junegunn/limelight.vim'
+  " Plug 'junegunn/goyo.vim'
+  " Plug 'junegunn/limelight.vim'
   Plug 'christoomey/vim-system-copy'
   Plug 'christoomey/vim-tmux-navigator'
   Plug 'tpope/vim-commentary'
   Plug 'zivyangll/git-blame.vim'
   Plug 'tpope/vim-fugitive'
-  Plug 'tpope/vim-rhubarb'
+  " Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-repeat'
   Plug 'ryanoasis/vim-devicons'
   " Text objects
@@ -55,6 +55,7 @@ call plug#begin()
   " man pages
   Plug 'lambdalisue/vim-pager'
   Plug 'lambdalisue/vim-manpager'
+  Plug 'tpope/vim-surround'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -397,6 +398,8 @@ augroup MonorepoPathsVimTest
   autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:workspace_test_runner = "yarn workspace @sylvera/versions-service test"
 autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:workspace_test_runner = "yarn workspace @sylvera/integration-tests test"
 autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:workspace_test_runner = "yarn workspace @sylvera/s3-cache test"
+
+autocmd BufEnter ~/code/sylvera-service/packages/feature-flags/* let g:workspace_test_runner = "yarn workspace @sylvera/feature-flags test"
 augroup END
 
 "" Gitgutter
