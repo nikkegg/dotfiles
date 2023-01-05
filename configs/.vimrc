@@ -40,7 +40,7 @@ call plug#begin()
   Plug 'tpope/vim-commentary'
   Plug 'zivyangll/git-blame.vim'
   Plug 'tpope/vim-fugitive'
-  " Plug 'tpope/vim-rhubarb'
+  Plug 'tpope/vim-rhubarb'
   Plug 'tpope/vim-repeat'
   Plug 'ryanoasis/vim-devicons'
   " Text objects
@@ -398,8 +398,12 @@ augroup MonorepoPathsVimTest
   autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:workspace_test_runner = "yarn workspace @sylvera/versions-service test"
 autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:workspace_test_runner = "yarn workspace @sylvera/integration-tests test"
 autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:workspace_test_runner = "yarn workspace @sylvera/s3-cache test"
-
 autocmd BufEnter ~/code/sylvera-service/packages/feature-flags/* let g:workspace_test_runner = "yarn workspace @sylvera/feature-flags test"
+
+autocmd BufEnter ~/code/sylvera-service-lambdas/apps/service-database-etl/* let g:workspace_test_runner = "yarn workspace @apps/service-database-etl test"
+autocmd BufEnter ~/code/sylvera-service-lambdas/apps/pdf-generation/* let g:workspace_test_runner = "yarn workspace @apps/pdf-generation test"
+autocmd BufEnter ~/code/sylvera-service-lambdas/apps/post-authentication/* let g:workspace_test_runner = "yarn workspace @apps/post-authentication test"
+autocmd BufEnter ~/code/sylvera-service-lambdas/apps/post-auth-event-processing/* let g:workspace_test_runner = "yarn workspace @apps/post-auth-event-processing test"
 augroup END
 
 "" Gitgutter

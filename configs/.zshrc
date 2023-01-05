@@ -97,7 +97,7 @@ function vi-yank-xclip {
 }
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+[ -f ~/sylvera-client.sh ] && source ~/sylvera-client.sh
 #Below stop zsh-vi-mode conflicting with fzf bindings
 function integrate_zsh_vi_mode_with_fzf() {
   [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

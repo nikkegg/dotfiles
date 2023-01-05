@@ -6,3 +6,4 @@ configs/.zshrc .zshrc
 configs/.fzf.zsh .fzf.zsh
 configs/.ripgreprc .ripgreprc
 configs/vim-test.sh vim-test.sh
+configs/sylvera-client.sh sylvera-client.sh
