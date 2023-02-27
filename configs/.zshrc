@@ -48,12 +48,16 @@ alias cl='clear'
 alias pgcli='PAGER=less pgcli'
 alias tree="tree -C --dirsfirst"
 alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
+alias export=' export'
 # This pipes output of z command (most commonly visited directories) to fzf
 j() {
     [ $# -gt 0 ] && z "$*" && return
     cd "$(z -l 2>&1 | fzf --preview '' --height 40% --nth 2.. --reverse --inline-info +s --tac --query "${*##-* }" | sed 's/^[0-9,.]* *//')"
 }
 
+id_from_cognito_key () {
+  node -e "const {stringify } = require('uuid'); console.log(stringify(Uint8Array.from(Buffer.from('$1', 'base64'))))"
+}
 # This allows to use rg to grep files name. Second arg is path to grep in
 # First arg is grep pattern, second optional arg is a directory
 rgf() {
