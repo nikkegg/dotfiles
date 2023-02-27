@@ -107,6 +107,8 @@ function integrate_zsh_vi_mode_with_fzf() {
 zvm_after_init_commands+=(integrate_zsh_vi_mode_with_fzf)
 source "$ZSH/oh-my-zsh.sh"
 unsetopt hist_verify
+# Do not commit command starting with whitespace to zsh history
+setopt HIST_IGNORE_SPACE
 # ASDF path config. Needs to be added after oh-my-zsh is sourced
 # Make zsh vi mode yank into system clipboard
 . $(brew --prefix asdf)/asdf.sh

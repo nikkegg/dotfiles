@@ -2,6 +2,7 @@
 	name = Nik Visenko
 	email = nik.vschenko@sylvera.io
 	initials = nv
+
 [alias]
 	br = branch --sort=-committerdate
 	co = checkout
@@ -13,29 +14,40 @@
 
 [push]
 	default = current
+
 [format]
 	pretty = tformat:%C(green)%h%C(reset) %C(bold blue)%ar%C(reset) %C(yellow)%an%C(reset) %C(bold red)%d%C(reset) %s\
+
+[help]
+	autocorrect = 20
 [filter "lfs"]
 	clean = git-lfs clean -- %f
+
 [filter "lfs"]
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+
 [core]
 	excludesfile = /Users/nikvisenko/.gitignore
 	pager = "diff-so-fancy | less --tabs=4 -RFX"
 	diffFilter = "diff-so-fancy --patch"
+
 [web]
 	browser = open
+
 [github]
 	token = echo $GITHUB_TOKEN
+
 [color]
 	ui = true
+
 [color "diff-highlight"]
 	oldNormal = red bold
 	oldHighlight = red bold 52
 	newNormal = green bold
 	newHighlight = green bold 22
+
 [color "diff"]
 	meta = 11
 	frag = magenta bold

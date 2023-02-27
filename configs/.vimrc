@@ -56,6 +56,7 @@ call plug#begin()
   Plug 'lambdalisue/vim-pager'
   Plug 'lambdalisue/vim-manpager'
   Plug 'tpope/vim-surround'
+  Plug 'antoinemadec/coc-fzf'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -383,7 +384,6 @@ augroup MonorepoPathsVimTest
   autocmd!
   autocmd BufEnter ~/code/sylvera-service/packages/monitoring/* let g:workspace_test_runner = "yarn workspace @sylvera/monitoring"
   autocmd BufEnter ~/code/sylvera-service/packages/auth/* let g:workspace_test_runner = "yarn workspace @sylvera/auth test"
-
   autocmd BufEnter ~/code/sylvera-service/packages/cache-projects/* let g:workspace_test_runner = "yarn workspace @sylvera/cache-projects test"
   autocmd BufEnter ~/code/sylvera-service/packages/cognito/* let g:workspace_test_runner = "yarn workspace @sylvera/cognito test"
   autocmd BufEnter ~/code/sylvera-service/packages/container/* let g:workspace_test_runner = "yarn workspace @sylvera/container test"
@@ -396,14 +396,15 @@ augroup MonorepoPathsVimTest
   autocmd BufEnter ~/code/sylvera-service/packages/usage/* let g:workspace_test_runner = "yarn workspace @sylvera/usage test"
   autocmd BufEnter ~/code/sylvera-service/packages/users/* let g:workspace_test_runner = "yarn workspace @sylvera/users test"
   autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:workspace_test_runner = "yarn workspace @sylvera/versions-service test"
-autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:workspace_test_runner = "yarn workspace @sylvera/integration-tests test"
-autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:workspace_test_runner = "yarn workspace @sylvera/s3-cache test"
-autocmd BufEnter ~/code/sylvera-service/packages/feature-flags/* let g:workspace_test_runner = "yarn workspace @sylvera/feature-flags test"
+  autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:workspace_test_runner = "yarn workspace @sylvera/integration-tests test"
+  autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:workspace_test_runner = "yarn workspace @sylvera/s3-cache test"
+  autocmd BufEnter ~/code/sylvera-service/packages/feature-flags/* let g:workspace_test_runner = "yarn workspace @sylvera/feature-flags test"
+  autocmd BufEnter ~/code/sylvera-service/packages/api-retirements/* let g:workspace_test_runner = "yarn workspace @sylvera/api-retirements test"
 
-autocmd BufEnter ~/code/sylvera-service-lambdas/apps/service-database-etl/* let g:workspace_test_runner = "yarn workspace @apps/service-database-etl test"
-autocmd BufEnter ~/code/sylvera-service-lambdas/apps/pdf-generation/* let g:workspace_test_runner = "yarn workspace @apps/pdf-generation test"
-autocmd BufEnter ~/code/sylvera-service-lambdas/apps/post-authentication/* let g:workspace_test_runner = "yarn workspace @apps/post-authentication test"
-autocmd BufEnter ~/code/sylvera-service-lambdas/apps/post-auth-event-processing/* let g:workspace_test_runner = "yarn workspace @apps/post-auth-event-processing test"
+  autocmd BufEnter ~/code/sylvera-service-lambdas/apps/service-database-etl/* let g:workspace_test_runner = "yarn workspace @apps/service-database-etl test"
+  autocmd BufEnter ~/code/sylvera-service-lambdas/apps/pdf-generation/* let g:workspace_test_runner = "yarn workspace @apps/pdf-generation test"
+  autocmd BufEnter ~/code/sylvera-service-lambdas/apps/post-authentication/* let g:workspace_test_runner = "yarn workspace @apps/post-authentication test"
+  autocmd BufEnter ~/code/sylvera-service-lambdas/apps/post-auth-event-processing/* let g:workspace_test_runner = "yarn workspace @apps/post-auth-event-processing test"
 augroup END
 
 "" Gitgutter
@@ -623,7 +624,7 @@ let g:tmux_navigator_no_mappings = 1
 :nnoremap <silent> gdt :call CocAction('jumpDefinition', 'tabe')<cr>
 " Super useful - takes you to return type when called on a function
 :nnoremap <silent> gy :let g:quickr_preview_on_cursor = 1<CR> <Plug>(coc-type-definition)
-
+nmap <leader>ac <Plug>(coc-codeaction)
 " Places where the target is being used
 :nnoremap <silent> gr :let g:quickr_preview_on_cursor = 1<CR> <Plug>(coc-references)
 " Less useful - rather than definition, it takes you to a file where export

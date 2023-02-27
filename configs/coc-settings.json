@@ -23,6 +23,7 @@
   "diagnostic.enable": true,
   "diagnostic.checkCurrentLine": true,
   "coc.preferences.useQuickfixForLocations": true,
+  "typescript.tsserver.maxTsServerMemory": 7000,
   "languageserver": {
     "terraform": {
       "command": "terraform-ls",
