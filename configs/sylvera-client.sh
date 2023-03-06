@@ -17,8 +17,8 @@ get() {
     return 0;
   fi;
 
-  if ! [[ $environment =~ (dev|staging|preview|production|local) ]]; then 
-    echo 'Error: you must specify an environment as a first arg. Permitted values: dev, staging, preview, production'
+  if ! [[ $environment =~ (dev|staging|preview|production|local|test) ]]; then 
+    echo 'Error: you must specify an environment as a first arg. Permitted values: local, dev, staging, preview, test, production'
     return 0;
   fi;
 
@@ -71,8 +71,8 @@ post() {
     return 0;
   fi;
 
-  if ! [[ $environment =~ (dev|staging|preview|production|local) ]]; then 
-    echo 'Error: you must specify an environment as a first arg. Permitted values: dev, staging, preview, production'
+  if ! [[ $environment =~ (dev|staging|preview|production|local|test) ]]; then 
+    echo 'Error: you must specify an environment as a first arg. Permitted values: local, dev, staging, preview, test, production'
     return 0;
   fi;
 
@@ -130,7 +130,7 @@ delete() {
   fi;
 
   if ! [[ $environment =~ (dev|staging|preview|production|local) ]]; then 
-    echo 'Error: you must specify an environment as a first arg. Permitted values: dev, staging, preview, production'
+    echo 'Error: you must specify an environment as a first arg. Permitted values: local, dev, staging, preview, test, production'
     return 0;
   fi;
 
