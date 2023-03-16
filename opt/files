@@ -1,5 +1,6 @@
 configs/.gitconfig .gitconfig
 configs/.gitignore .gitignore
+configs/.gitmessage .gitmessage
 configs/.vimrc .vimrc
 configs/.tmux.conf .tmux.conf
 configs/.zshrc .zshrc

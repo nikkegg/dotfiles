@@ -15,6 +15,9 @@
 [push]
 	default = current
 
+[commit]
+  template = ~/.gitmessage
+
 [format]
 	pretty = tformat:%C(green)%h%C(reset) %C(bold blue)%ar%C(reset) %C(yellow)%an%C(reset) %C(bold red)%d%C(reset) %s\
 
