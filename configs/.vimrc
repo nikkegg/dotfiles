@@ -226,7 +226,7 @@ augroup END
 """ Custom path to coc-settings fulle
 let g:coc_config_home = '$HOME/dotfiles/configs/'
 """ List of CoC extensions
-let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-css', 'coc-elixir', 'coc-html', 'coc-markdownlint', 'coc-tsserver', 'coc-yaml', 'coc-prettier', 'coc-eslint', 'coc-docker']
+let g:coc_global_extensions = ['coc-json', 'coc-git', 'coc-html', 'coc-markdownlint', 'coc-tsserver', 'coc-yaml', 'coc-prettier', 'coc-eslint', 'coc-docker']
 "" Status line
 """ Displays numbers of errors and warnings as well as corresponding coc icongs in the statusline
 let g:lightline#coc#indicator_hints = 'H '
