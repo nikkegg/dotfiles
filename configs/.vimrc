@@ -677,6 +677,9 @@ endfunction
 "" Zoom in on vim split
 noremap Zz <c-w>_ \| <c-w>\|
 noremap Zo <c-w>=
+"" File template mapppings
+noremap ,docker :. ! curl -s https://raw.githubusercontent.com/nikkegg/notes/main/docker/Dockerfile<CR>
+noremap ,dockerc :. ! curl -s https://raw.githubusercontent.com/nikkegg/notes/main/docker/docker-compose.yaml<CR>
 """"""""""""""""""""""""
 "  Abbreviations  "
 """"""""""""""""""""""""
