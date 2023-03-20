@@ -57,6 +57,7 @@ call plug#begin()
   Plug 'lambdalisue/vim-manpager'
   Plug 'tpope/vim-surround'
   Plug 'antoinemadec/coc-fzf'
+  Plug 'mhinz/vim-startify'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -426,6 +427,32 @@ augroup END
 "" Vim polyglot
 " Conceal quotes in json files
 let g:vim_json_syntax_conceal = 1
+"" Startify
+" :SLoad    load a session
+" :SSave    save a session
+" :SDelete  delete a session
+" :SClose   close current session
+
+" 'Most Recent Files' number
+let g:startify_files_number           = 8
+
+" Update session automatically as you exit vim
+let g:startify_session_persistence    = 1
+
+" Simplify the startify list to just recent files and sessions
+let g:startify_lists = [
+  \ { 'type': 'dir',       'header': ['   Recent files'] },
+  \ { 'type': 'sessions',  'header': ['   Saved sessions'] },
+  \ ]
+
+" Fancy custom header
+let g:startify_custom_header = [
+  \ "  ",
+  \ '   ╻ ╻   ╻   ┏┳┓',
+  \ '   ┃┏┛   ┃   ┃┃┃',
+  \ '   ┗┛    ╹   ╹ ╹',
+  \ '   ',
+  \ ]
 """""""""""""""""""""""
 "  General settings  "
 """"""""""""""""""""""""
