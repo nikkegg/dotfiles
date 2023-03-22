@@ -1,21 +1,12 @@
-function git_status_to_regex {
-	# run git status
-	# appends | to each line
-	# trims last |
-	# Output looks like path/to/modified/file1|path/to/modified/file2 etc.
-	local files=$(git status -s | cut -c4- | tr '\n' '|' | sed 's/.$//')
-	# wraps into regex block
-	local regex="($files)"
-	echo $regex
-}
+PANE_CURRENT_PATH="$1"
 
+# Match output of git status to facilitate a quick jump to it in tmux
 function match_git_status {
-  # enter copy-mode in tmux
-	# backwards-search for all the files listed by git status
+	# below creates a regex pattern from output of git status in the from
+	# (git_status_file1|git_status_file2|...)
+	local files="($(git -C "$PANE_CURRENT_PATH" status -s | cut -c4- | tr '\n' '|' | sed 's/.$//'))"
 	tmux copy-mode;
-	tmux send-keys -X search-backward "$git_status_to_regex";
-	tmux send-keys 'n';
-	exit 0
+	tmux send-keys -X search-backward "$files";
 }
 
-
+match_git_status
