@@ -25,6 +25,6 @@ function vim_test() {
   # else create new horizontal split
   # exec zsh stops tmux pane from closing when process exists.
   # This helps to avoid setting global remain-on-exit tmux option
-  $(tmux splitw -dv "$test_command && exec zsh")
+  $(tmux splitw -dv "($test_command || exit 0) && zsh")
   return 0
 }
