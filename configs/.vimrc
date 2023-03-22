@@ -432,7 +432,8 @@ let g:vim_json_syntax_conceal = 1
 " :SSave    save a session
 " :SDelete  delete a session
 " :SClose   close current session
-
+" Dont automgically change dir when opening MRUs
+let g:startify_change_to_dir = 0
 " 'Most Recent Files' number
 let g:startify_files_number           = 8
 
