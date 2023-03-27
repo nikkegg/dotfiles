@@ -14,8 +14,8 @@ function vim_test() {
   currently_running_process=$(tmux display -p -t bottom '#{pane_current_command}')
   local test_command="$1"
 
-  # use first existing horizontal split if it exists and is running a shell
   # process. This avoids sending test command to splits running vim/other
+  # use first existing horizontal split if it exists and is running a shell
   # long-running processes
   if [[ $bottom_pane_count -ge 1 && $currently_running_process =~ (zsh|bash|fish) ]]; then
     $(tmux send-keys -t bottom "$test_command" Enter)

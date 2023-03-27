@@ -23,6 +23,7 @@
   "diagnostic.enable": true,
   "diagnostic.checkCurrentLine": true,
   "coc.preferences.useQuickfixForLocations": true,
+  "tsserver.useLocalTsdk": false,
   "languageserver": {
     "terraform": {
       "command": "terraform-ls",
