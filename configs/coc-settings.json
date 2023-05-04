@@ -23,7 +23,8 @@
   "diagnostic.enable": true,
   "diagnostic.checkCurrentLine": true,
   "coc.preferences.useQuickfixForLocations": true,
-  "tsserver.useLocalTsdk": false,
+  "tsserver.log": "verbose",
+  "tsserver.tsdk": "~/code/sylvera-service/node_modules/typescript/lib",
   "languageserver": {
     "terraform": {
       "command": "terraform-ls",

@@ -30,8 +30,6 @@ export DISABLE_AUTO_TITLE="true"
 # Testing zsh config
 # Plugins
 plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions)
-# Make asdf work
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
 # Aliases
 alias vim="PAGER=bat vim -S ~/.vimrc"
 alias gst='git status'
@@ -114,10 +112,7 @@ source "$ZSH/oh-my-zsh.sh"
 unsetopt hist_verify
 # Do not commit command starting with whitespace to zsh history
 setopt HIST_IGNORE_SPACE
-# ASDF path config. Needs to be added after oh-my-zsh is sourced
 # Make zsh vi mode yank into system clipboard
-. $(brew --prefix asdf)/asdf.sh
-
 
 source /Users/nikitavishenchiuk/code/bash_utils/entrypoint.sh
 

@@ -149,9 +149,22 @@ command! BD call fzf#run(fzf#wrap({
   \ 'options': '--multi --reverse --bind ctrl-a:select-all+accept'
 \ }))
 
+
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-s': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
 """ Options for default :FZF command
 let g:fzf_files_options =
-  \ '--preview="bat --color=always --style=numbers {}" --bind shift-up:preview-up,shift-down:preview-down'
+  \ '--preview="bat --color=always --style=numbers {}" --bind shift-up:preview-up,shift-down:preview-down,ctrl-S:select-all'
 
 
 "" Coc-general
@@ -660,6 +673,7 @@ nmap <leader>ac <Plug>(coc-codeaction)
 :nnoremap <silent> gi <Plug>(coc-implementation)
 :nnoremap <silent> ]d <Plug>(coc-diagnostic-prev)
 :nnoremap <silent> [d <Plug>(coc-diagnostic-next)
+nmap <leader>rn <Plug>(coc-rename)
 command! D :CocDiagnostics<CR>
 "" Scroll the viewport faster
 nnoremap <C-e> 3<C-e>
