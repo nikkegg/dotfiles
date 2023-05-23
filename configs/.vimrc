@@ -15,6 +15,7 @@ call plug#begin()
   Plug 'lambdalisue/nerdfont.vim'
   Plug 'lambdalisue/fern-renderer-nerdfont.vim'
   Plug 'lambdalisue/fern-git-status.vim'
+  Plug 'lambdalisue/fern-mapping-quickfix.vim'
   " Error, warning and info summary in statusline
   Plug 'josa42/vim-lightline-coc'
   " Only show relative line number in active buffer
@@ -109,6 +110,8 @@ function! FernInit() abort
   nmap <buffer> <C-t> <Plug>(fern-action-open:tabedit)
   nmap <buffer> <C-b> <Plug>(fern-action-open:split)
   nmap <buffer> <C-v> <Plug>(fern-action-open:vsplit)
+  nmap <buffer> <C-q> <Plug>(fern-action-quickfix:new)
+  nmap <buffer> <C-Q> <Plug>(fern-action-quickfix:add)
   nmap <buffer> y <Plug>(fern-action-yank)
   nmap <buffer> c <Plug>(fern-action-copy)
   nmap <buffer><nowait> < <Plug>(fern-action-leave)
@@ -396,24 +399,24 @@ let g:test#enabled_runners =  ["javascript#jest"]
 " This is a bit annoying, but is required to make vim-test work with monorepos. It will change test command based on test file in focus to yarn wortkspace @sylvera/<workspace>. This is then used by vim-test.sh to run test in horizontal tmux splits
 augroup MonorepoPathsVimTest
   autocmd!
-  autocmd BufEnter ~/code/sylvera-service/packages/monitoring/* let g:workspace_test_runner = "yarn workspace @sylvera/monitoring"
-  autocmd BufEnter ~/code/sylvera-service/packages/auth/* let g:workspace_test_runner = "yarn workspace @sylvera/auth test"
-  autocmd BufEnter ~/code/sylvera-service/packages/cache-projects/* let g:workspace_test_runner = "yarn workspace @sylvera/cache-projects test"
-  autocmd BufEnter ~/code/sylvera-service/packages/cognito/* let g:workspace_test_runner = "yarn workspace @sylvera/cognito test"
-  autocmd BufEnter ~/code/sylvera-service/packages/container/* let g:workspace_test_runner = "yarn workspace @sylvera/container test"
-  autocmd BufEnter ~/code/sylvera-service/packages/database-projects/* let g:workspace_test_runner = "yarn workspace @sylvera/database-projects test"
-  autocmd BufEnter ~/code/sylvera-service/packages/emails/* let g:workspace_test_runner = "yarn workspace @sylvera/emails test"
-  autocmd BufEnter ~/code/sylvera-service/packages/maps/* let g:workspace_test_runner = "yarn workspace @sylvera/maps test"
-  autocmd BufEnter ~/code/sylvera-service/packages/notifications/* let g:workspace_test_runner = "yarn workspace @sylvera/notifications test"
-  autocmd BufEnter ~/code/sylvera-service/packages/projects/* let g:workspace_test_runner = "yarn workspace @sylvera/projects test"
-  autocmd BufEnter ~/code/sylvera-service/packages/shared/* let g:workspace_test_runner = "yarn workspace @sylvera/shared test"
-  autocmd BufEnter ~/code/sylvera-service/packages/usage/* let g:workspace_test_runner = "yarn workspace @sylvera/usage test"
-  autocmd BufEnter ~/code/sylvera-service/packages/users/* let g:workspace_test_runner = "yarn workspace @sylvera/users test"
-  autocmd BufEnter ~/code/sylvera-service/packages/versions-service/* let g:workspace_test_runner = "yarn workspace @sylvera/versions-service test"
-  autocmd BufEnter ~/code/sylvera-service/packages/integration-tests/* let g:workspace_test_runner = "yarn workspace @sylvera/integration-tests test"
-  autocmd BufEnter ~/code/sylvera-service/packages/s3-cache/* let g:workspace_test_runner = "yarn workspace @sylvera/s3-cache test"
-  autocmd BufEnter ~/code/sylvera-service/packages/feature-flags/* let g:workspace_test_runner = "yarn workspace @sylvera/feature-flags test"
-  autocmd BufEnter ~/code/sylvera-service/packages/api-retirements/* let g:workspace_test_runner = "yarn workspace @sylvera/api-retirements test"
+  autocmd BufEnter ~/code/public-api/packages/monitoring/* let g:workspace_test_runner = "yarn workspace @sylvera/monitoring"
+  autocmd BufEnter ~/code/public-api/packages/auth/* let g:workspace_test_runner = "yarn workspace @sylvera/auth test"
+  autocmd BufEnter ~/code/public-api/packages/cache-projects/* let g:workspace_test_runner = "yarn workspace @sylvera/cache-projects test"
+  autocmd BufEnter ~/code/public-api/packages/cognito/* let g:workspace_test_runner = "yarn workspace @sylvera/cognito test"
+  autocmd BufEnter ~/code/public-api/packages/container/* let g:workspace_test_runner = "yarn workspace @sylvera/container test"
+  autocmd BufEnter ~/code/public-api/packages/database-projects/* let g:workspace_test_runner = "yarn workspace @sylvera/database-projects test"
+  autocmd BufEnter ~/code/public-api/packages/emails/* let g:workspace_test_runner = "yarn workspace @sylvera/emails test"
+  autocmd BufEnter ~/code/public-api/packages/maps/* let g:workspace_test_runner = "yarn workspace @sylvera/maps test"
+  autocmd BufEnter ~/code/public-api/packages/notifications/* let g:workspace_test_runner = "yarn workspace @sylvera/notifications test"
+  autocmd BufEnter ~/code/public-api/packages/projects/* let g:workspace_test_runner = "yarn workspace @sylvera/projects test"
+  autocmd BufEnter ~/code/public-api/packages/shared/* let g:workspace_test_runner = "yarn workspace @sylvera/shared test"
+  autocmd BufEnter ~/code/public-api/packages/usage/* let g:workspace_test_runner = "yarn workspace @sylvera/usage test"
+  autocmd BufEnter ~/code/public-api/packages/users/* let g:workspace_test_runner = "yarn workspace @sylvera/users test"
+  autocmd BufEnter ~/code/public-api/packages/versions-service/* let g:workspace_test_runner = "yarn workspace @sylvera/versions-service test"
+  autocmd BufEnter ~/code/public-api/packages/integration-tests/* let g:workspace_test_runner = "yarn workspace @sylvera/integration-tests test"
+  autocmd BufEnter ~/code/public-api/packages/s3-cache/* let g:workspace_test_runner = "yarn workspace @sylvera/s3-cache test"
+  autocmd BufEnter ~/code/public-api/packages/feature-flags/* let g:workspace_test_runner = "yarn workspace @sylvera/feature-flags test"
+  autocmd BufEnter ~/code/public-api/packages/api-retirements/* let g:workspace_test_runner = "yarn workspace @sylvera/api-retirements test"
 
   autocmd BufEnter ~/code/sylvera-service-lambdas/apps/service-database-etl/* let g:workspace_test_runner = "yarn workspace @apps/service-database-etl test"
   autocmd BufEnter ~/code/sylvera-service-lambdas/apps/pdf-generation/* let g:workspace_test_runner = "yarn workspace @apps/pdf-generation test"
