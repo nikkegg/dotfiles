@@ -57,6 +57,14 @@ j() {
 id_from_cognito_key () {
   node -e "const {stringify } = require('uuid'); console.log(stringify(Uint8Array.from(Buffer.from('$1', 'base64'))))"
 }
+
+function deactivate_sylvera_user {
+  local emailAddress="$1";
+  local environments=('development' 'staging' 'production' 'test' 'preview');
+  for env in $environments;
+    do echo "Deactivating user in $env"; ./sylvera users deactivate -e $env --email $emailAddress; 
+  done;
+}
 # This allows to use rg to grep files name. Second arg is path to grep in
 # First arg is grep pattern, second optional arg is a directory
 rgf() {
