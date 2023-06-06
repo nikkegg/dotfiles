@@ -58,6 +58,24 @@ id_from_cognito_key () {
   node -e "const {stringify } = require('uuid'); console.log(stringify(Uint8Array.from(Buffer.from('$1', 'base64'))))"
 }
 
+tail_logs () {
+  local environment="$1"
+  local log_group="$2"
+  
+  if [[ $log_group == "" ]]; then
+    echo 'Tailling public API logs...'
+    log_group="/ecs/app-api"
+  fi
+
+  if [[ $environment == "" ]]; then
+    echo 'Error: must specify environment'
+    kill -INT $$
+  fi
+
+
+  aws logs tail --follow "$log_group" --profile="$environment" | cut -f '3-' -d ' ' | pino-pretty --ignore id --translateTime 'SYS:HH:MM:ss' --singleLine
+}
+
 function deactivate_sylvera_user {
   local emailAddress="$1";
   local environments=('development' 'staging' 'production' 'test' 'preview');
