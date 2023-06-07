@@ -678,6 +678,7 @@ nmap <leader>ac <Plug>(coc-codeaction)
 :nnoremap <silent> [d <Plug>(coc-diagnostic-next)
 nmap <leader>rn <Plug>(coc-rename)
 command! D :CocDiagnostics<CR>
+nmap <leader>d <Plug>(coc-codeaction)
 "" Scroll the viewport faster
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
