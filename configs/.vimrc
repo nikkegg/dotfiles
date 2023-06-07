@@ -59,6 +59,7 @@ call plug#begin()
   Plug 'tpope/vim-surround'
   Plug 'antoinemadec/coc-fzf'
   Plug 'mhinz/vim-startify'
+  Plug 'tpope/vim-dispatch'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -442,6 +443,22 @@ augroup Filtetypes
   au BufRead,BufNewFile *.md setlocal spell
   au FileType gitcommit setlocal spell
 augroup END
+
+augroup FugitiveMappings
+  autocmd!
+  au FileType fugitive nmap <buffer> <Tab> =
+augroup END
+
+augroup FugitiveBlame
+  autocmd!
+  au FileType fugitiveblame nmap K K
+augroup END
+
+augroup TypescriptCompile
+  autocmd!
+  au FileType typescript,typescriptreact setlocal makeprg = yarn\ workspace\ @sylvera/container\ build
+augroup END
+
 "" Vim polyglot
 " Conceal quotes in json files
 let g:vim_json_syntax_conceal = 1
