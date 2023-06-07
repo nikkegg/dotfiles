@@ -438,7 +438,9 @@ let g:gitgutter_enabled = 1
 "" Filtetype autocommands
 augroup Filtetypes
   autocmd!
-au BufNewFile,BufRead *.ejs set filetype=html
+  au BufNewFile,BufRead *.ejs set filetype=html
+  au BufRead,BufNewFile *.md setlocal spell
+  au FileType gitcommit setlocal spell
 augroup END
 "" Vim polyglot
 " Conceal quotes in json files
