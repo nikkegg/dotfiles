@@ -16,8 +16,6 @@ function __validate_env {
     echo 'Error: you must specify an environment as a first arg. Permitted values: local, dev, staging, preview, test, production'
     kill -INT $$
   fi
-
-  return 0
 }
 
 function __validate_endpoint {

@@ -58,29 +58,85 @@ id_from_cognito_key () {
   node -e "const {stringify } = require('uuid'); console.log(stringify(Uint8Array.from(Buffer.from('$1', 'base64'))))"
 }
 
+ __validate_aws_env () {
+  local environment="$1"
+
+  if ! [[ $environment =~ (dev|staging|preview|prod|"test") ]]; then
+    echo 'Error: you must specify an environment as a first arg. Permitted values: local, dev, staging, preview, test, prod.'
+    kill -INT $$
+  fi
+}
+
+ __validate_lambda_entity () {
+  local entity="$1"
+
+  if ! [[ $entity =~ (project|issuance|pricing|ngeo) ]]; then
+    echo 'Error: you must specify entity to update as a second arg. Permitted values are project, issuance, pricing, ngeo'
+    kill -INT $$
+  fi
+}
+
+
 tail_logs () {
   local environment="$1"
   local log_group="$2"
   
+  __validate_aws_env $environment
+
   if [[ $log_group == "" ]]; then
-    echo 'Tailling public API logs...'
     log_group="/ecs/app-api"
   fi
 
-  if [[ $environment == "" ]]; then
-    echo 'Error: must specify environment'
-    kill -INT $$
+  echo "Tailling $log_group logs in $environment..."
+
+  if [[ $log_group =~ 'lambda' ]]; then
+    aws logs tail --follow "$log_group" --profile=$environment
+  else
+    aws logs tail --follow "$log_group" --profile=$environment | cut -f '3-' -d ' ' | pino-pretty --ignore id --translateTime 'SYS:HH:MM:ss' --singleLine
+  fi
+}
+
+invoke_etl_lambda () {
+  local environment="$1"
+  local entity="$2"
+  local outputDest="$HOME/lambdaResponse.json"
+
+  __validate_aws_env $environment
+
+  if [[ $entity == "" ]]; then
+    entity="project"
   fi
 
+  __validate_lambda_entity $entity
 
-  aws logs tail --follow "$log_group" --profile="$environment" | cut -f '3-' -d ' ' | pino-pretty --ignore id --translateTime 'SYS:HH:MM:ss' --singleLine
+
+  echo "Invoking ETL lambda in $environment for all $entity entities..."
+  echo "Output will be written to $outputDest\n"
+  aws lambda invoke \
+    --function-name $ETL_LAMBDA \
+    --payload '{
+  "Records": [
+    {
+      "messageAttributes": {
+        "type": {
+          "dataType": "String",
+          "stringValue": "all"
+        },
+        "entity": {
+          "dataType": "String",
+          "stringValue": "'$entity'"
+        }
+      }
+    }
+  ]
+}' --cli-binary-format raw-in-base64-out $outputDest --profile=$environment
 }
 
 function deactivate_sylvera_user {
   local emailAddress="$1";
   local environments=('development' 'staging' 'production' 'test' 'preview');
   for env in $environments;
-    do echo "Deactivating user in $env"; ./sylvera users deactivate -e $env --email $emailAddress; 
+    do echo "Deactivating user in $env"; ~/code/user-management/admin-scripts/sylvera users deactivate -e $env --email $emailAddress; 
   done;
 }
 # This allows to use rg to grep files name. Second arg is path to grep in

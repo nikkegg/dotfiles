@@ -59,7 +59,7 @@ call plug#begin()
   Plug 'tpope/vim-surround'
   Plug 'antoinemadec/coc-fzf'
   Plug 'mhinz/vim-startify'
-  Plug 'tpope/vim-dispatch'
+  Plug 'skywind3000/asyncrun.vim'
 call plug#end()
 """""""""""""""""""""""
 "  Plugin config, autocommands and commands  "
@@ -456,9 +456,8 @@ augroup END
 
 augroup TypescriptCompile
   autocmd!
-  au FileType typescript,typescriptreact setlocal makeprg = yarn\ workspace\ @sylvera/container\ build
+  au FileType typescript,typescriptreact compiler typescript | setlocal makeprg=yarn\ build
 augroup END
-
 "" Vim polyglot
 " Conceal quotes in json files
 let g:vim_json_syntax_conceal = 1
@@ -503,7 +502,7 @@ set noshowcmd
 set nowritebackup
 set noswapfile
 set updatetime=300
-set shortmess+=c
+set shortmess-=S
 syntax on
 " Colorscheme and cursor
 " let g:seoul256_background = 233
