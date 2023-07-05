@@ -70,7 +70,7 @@ id_from_cognito_key () {
  __validate_lambda_entity () {
   local entity="$1"
 
-  if ! [[ $entity =~ (project|issuance|pricing|ngeo) ]]; then
+  if ! [[ $entity =~ (^project$|^issuance$|^pricing$|^ngeo$) ]]; then
     echo 'Error: you must specify entity to update as a second arg. Permitted values are project, issuance, pricing, ngeo'
     kill -INT $$
   fi
