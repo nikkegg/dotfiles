@@ -64,5 +64,7 @@
       "initializationOptions": {},
       "settings": {}
     }
-  }
+  },
+  "codeLens.enable": true,
+  "solargraph.useBundler": true
 }

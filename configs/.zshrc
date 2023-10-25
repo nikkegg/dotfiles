@@ -198,3 +198,5 @@ setopt HIST_IGNORE_SPACE
 
 source /Users/nikitavishenchiuk/code/bash_utils/entrypoint.sh
 
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
