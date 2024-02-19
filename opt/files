@@ -9,3 +9,4 @@ configs/.ripgreprc .ripgreprc
 configs/vim-test.sh vim-test.sh
 configs/tmux-git.sh tmux-git.sh
 configs/sylvera-client.sh sylvera-client.sh
+configs/json2csv.jq json2csv.jq

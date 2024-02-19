@@ -54,7 +54,6 @@
   "diagnostic.checkCurrentLine": true,
   "coc.preferences.useQuickfixForLocations": true,
   "tsserver.log": "verbose",
-  "tsserver.tsdk": "",
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "languageserver": {
     "terraform": {

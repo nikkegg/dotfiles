@@ -1,4 +1,5 @@
 # zsh
+TIMEFMT=$'real\t%E\nuser\t%U\nsys\t%S'
 ZSH_DISABLE_COMPFIX=true
 ZSH_THEME="obraun"
 ZSH_DISABLE_COMPFIX=true
@@ -6,8 +7,7 @@ HIST_STAMPS="dd.mm.yyyy"
 COMPLETION_WAITING_DOTS="true"
 ZVM_VI_ESCAPE_BINDKEY=jk
 EDITOR='vim'
-export PAGER='vim -c PAGER -'
-export MANPAGER="vim -c ASMANPAGER -"
+export PAGER='bat'
 # Exports
 export ZSH="${HOME}/.oh-my-zsh"
 export LANG=en_US.UTF-8
@@ -48,6 +48,10 @@ alias pgcli='PAGER=less pgcli'
 alias tree="tree -C --dirsfirst"
 alias uuidgen='uuidgen | tr "[:upper:]" "[:lower:]"'
 alias export=' export'
+alias tlc='tm clear-history && cl'
+my_ip () {
+  curl ifconfig.me
+}
 # This pipes output of z command (most commonly visited directories) to fzf
 j() {
     [ $# -gt 0 ] && z "$*" && return
@@ -199,4 +203,7 @@ setopt HIST_IGNORE_SPACE
 source /Users/nikitavishenchiuk/code/bash_utils/entrypoint.sh
 
 export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(direnv hook zsh)"
 eval "$(rbenv init -)"
+
+

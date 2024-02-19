@@ -11,6 +11,11 @@
 	last = log -1 HEAD
 	rb = rebase -i origin/master
 	hub = !hub
+	hack = town hack
+	sync = town sync
+	propose = town propose
+	kill = town kill
+	repo = town repo
 
 [push]
 	default = current
