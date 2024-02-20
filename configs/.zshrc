@@ -29,9 +29,10 @@ export NVM_DIR="$HOME/.nvm"
 export DISABLE_AUTO_TITLE="true"
 # Testing zsh config
 # Plugins
-plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(z zsh-vi-mode gitfast common-aliases zsh-syntax-highlighting zsh-autosuggestions asdf)
 # Aliases
 alias vim="PAGER=bat vim -S ~/.vimrc"
+alias python="python3.12"
 alias gst='git status'
 alias gc='git commit'
 alias gco='git checkout'

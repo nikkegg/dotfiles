@@ -7,8 +7,8 @@ USER_GIT_AUTHOR_EMAIL="cereshnia@gmail.com"
 DIR="${HOME}/${GITHUB_REPO}"
 
 _process() {
-    echo "$(date) PROCESSING:  $@" >> $LOG
-    printf "$(tput setaf 6) %s...$(tput sgr0)\n" "$@"
+  echo "$(date) PROCESSING:  $@" >> $LOG
+  printf "$(tput setaf 6) %s...$(tput sgr0)\n" "$@"
 }
 
 _success() {
@@ -17,80 +17,77 @@ _success() {
 }
 
 download_dotfiles() {
-    _process "→ Creating directory at ${DIR} and setting permissions"
-    mkdir -p "${DIR}"
+  _process "→ Creating directory at ${DIR} and setting permissions"
+  mkdir -p "${DIR}"
 
-    _process "→ Downloading repository to /tmp directory"
-    curl -#fLo /tmp/${GITHUB_REPO}.tar.gz "https://github.com/${GITHUB_USER}/${GITHUB_REPO}/tarball/main"
+  _process "→ Downloading repository to /tmp directory"
+  curl -#fLo /tmp/${GITHUB_REPO}.tar.gz "https://github.com/${GITHUB_USER}/${GITHUB_REPO}/tarball/main"
 
-    _process "→ Extracting files to ${DIR}"
-    tar -zxf /tmp/${GITHUB_REPO}.tar.gz --strip-components 1 -C "${DIR}"
+  _process "→ Extracting files to ${DIR}"
+  tar -zxf /tmp/${GITHUB_REPO}.tar.gz --strip-components 1 -C "${DIR}"
 
-    _process "→ Removing tarball from /tmp directory"
-    rm -rf /tmp/${GITHUB_REPO}.tar.gz
+  _process "→ Removing tarball from /tmp directory"
+  rm -rf /tmp/${GITHUB_REPO}.tar.gz
 
-    [[ $? ]] && _success "${DIR} created, repository downloaded and extracted"
+  [[ $? ]] && _success "${DIR} created, repository downloaded and extracted"
 
-    # Change to the dotfiles directory
-    cd "${DIR}"
+  # Change to the dotfiles directory
+  cd "${DIR}"
 }
 
 link_dotfiles() {
-    # symlink files to the HOME directory.
-    if [[ -f "${DIR}/opt/files" ]]; then
-        _process "→ Symlinking dotfiles in /configs"
+  # symlink files to the HOME directory.
+  if [[ -f "${DIR}/opt/files" ]]; then
+    _process "→ Symlinking dotfiles in /configs"
 
-        # Set variable for list of files
-        files="${DIR}/opt/files"
+    # Set variable for list of files
+    files="${DIR}/opt/files"
 
-        # Store IFS separator within a temp variable
-        OIFS=$IFS
-        # Set the separator to a carriage return & a new line break
-        # read in passed-in file and store as an array
-        IFS=$'\r\n'
-        links=($(cat "${files}"))
+    # Store IFS separator within a temp variable
+    OIFS=$IFS
+    # Set the separator to a carriage return & a new line break
+    # read in passed-in file and store as an array
+    IFS=$'\r\n'
+    links=($(cat "${files}"))
 
-        # Loop through array of files
-        for index in ${!links[*]}
-        do
-            for link in ${links[$index]}
-            do
-                _process "→ Linking ${links[$index]}"
-                # set IFS back to space to split string on
-                IFS=$' '
-                # create an array of line items
-                file=(${links[$index]})
-                # Create symbolic link
-                ln -fs "${DIR}/${file[0]}" "${HOME}/${file[1]}"
-            done
-            # set separater back to carriage return & new line break
-            IFS=$'\r\n'
-        done
+    # Loop through array of files
+    for index in ${!links[*]}; do
+      for link in ${links[$index]}; do
+        _process "→ Linking ${links[$index]}"
+        # set IFS back to space to split string on
+        IFS=$' '
+        # create an array of line items
+        file=(${links[$index]})
+        # Create symbolic link
+        ln -fs "${DIR}/${file[0]}" "${HOME}/${file[1]}"
+      done
+      # set separater back to carriage return & new line break
+      IFS=$'\r\n'
+    done
 
-        # Reset IFS back
-        IFS=$OIFS
+    # Reset IFS back
+    IFS=$OIFS
 
-        [[ $? ]] && _success "All files have been copied"
-    fi
+    [[ $? ]] && _success "All files have been copied"
+  fi
 }
 
 install_homebrew() {
-  
-  if ! command -v brew &> /dev/null
-  then
-  _process "→ Installing Homebrew"
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  eval "$(/opt/homebrew/bin/brew shellenv)"
-  _process "→ Running brew doctor"
-  brew doctor
-  [[ $? ]] \
-  && _success "Installed Homebrew"
+
+  if ! command -v brew &> /dev/null; then
+    _process "→ Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    _process "→ Running brew doctor"
+    brew doctor
+    [[ $? ]] \
+      && _success "Installed Homebrew"
   fi
 }
 
 install_vim_plug() {
-   /bin/bash -c "$(curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim)"
+  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 }
 
 install_oh_my_zsh() {
@@ -98,12 +95,13 @@ install_oh_my_zsh() {
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc
 
   [[ $? ]] \
-  && _success "Installed Oh-My-Zsh"
+    && _success "Installed Oh-My-Zsh"
 }
 
 install_oh_my_zsh_plugins() {
   git clone https://github.com/jeffreytse/zsh-vi-mode.git ${ZSH}/custom/plugins/zsh-vi-mode
   git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH}/custom/plugins/zsh-syntax-highlighting
+  git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
   source "~/.zshrc"
 }
 
@@ -114,7 +112,7 @@ install_node() {
     curl https://www.npmjs.org/install.sh | sh
 
     [[ $? ]] \
-    && _success "Installed npm"
+      && _success "Installed npm"
   fi
 }
 
@@ -132,6 +130,8 @@ install_formulae() {
     brew update
     brew upgrade
 
+    #instal rosetta as some casks need it (e.g aws vpn)
+    sudo softwareupdate --install-rosetta
     # Tap some necessary formulae
     brew tap homebrew/cask-versions
     brew tap homebrew/cask-drivers
@@ -141,6 +141,7 @@ install_formulae() {
     brew install --cask font-fira-code-nerd-font
     brew install --cask iterm2
     brew install --cask aws-vpn-client
+    brew install --cask flycut
     # Store IFS within a temp variable
     OIFS=$IFS
 
@@ -150,8 +151,7 @@ install_formulae() {
 
     # Loop through split list of formulae
     _process "→ Checking status of desired Homebrew formulae"
-    for index in ${!formulae[*]}
-    do
+    for index in ${!formulae[*]}; do
       # Test whether a Homebrew formula is already installed
       if ! brew list ${formulae[$index]} &> /dev/null; then
         brew install ${formulae[$index]}
