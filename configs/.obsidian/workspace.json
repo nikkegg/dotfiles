@@ -1,0 +1,213 @@
+{
+  "main": {
+    "id": "ec60e526595b004a",
+    "type": "split",
+    "children": [
+      {
+        "id": "a039bd3c22e49bc3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "21985ee59be6f020",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "GraphQL spec notes.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "21b90134663eff06",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Production-ready GraphQL.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3fde36753725239f",
+    "type": "split",
+    "children": [
+      {
+        "id": "e7140aaa0b38c733",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "7d9ff0cfdf274be4",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "ffc779665e52b375",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "96a29693056ab4c7",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "right": {
+    "id": "c0813bfd149d07cd",
+    "type": "split",
+    "children": [
+      {
+        "id": "73f2b7847e26c6c2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "991f8a870a21c864",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Production-ready GraphQL.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "2afe07114ef59d53",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Production-ready GraphQL.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "3c5b680814309613",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "fc91c8d4b859d7a2",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Production-ready GraphQL.md"
+              }
+            }
+          },
+          {
+            "id": "9ea50c542e16c30a",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "21b90134663eff06",
+  "lastOpenFiles": [
+    "Untitled 1.md",
+    "Production-ready GraphQL.md",
+    "GraphQL API best practices.md",
+    "GraphQL spec notes.md",
+    "Scalar.md",
+    "mdHelpers.js",
+    "Pasted image 20240122234033.png",
+    "1_IjID3up3sIpnCymlYU-tGA-1024x561.png",
+    "1_yI_ZuOy0-22q6pdgVlytCA-1024x380.png",
+    "1_gLgBpni39kqad9C4QDOCVQ-1024x522.png",
+    "Screenings.md",
+    "Q1 2024/Unification of rated and unrated projects.md",
+    "Q1 2024/Permissions in Hasura.md",
+    "Q1 2024/Notifications.md",
+    "Q1 2024/Market Updates V2.md",
+    "Q1 2024/Hasura <-> Snowflake integration.md",
+    "Q1 2024/GraphQL migration beyond unification.md",
+    "Q1 2024/Country profiles in the ratings app.md",
+    "Templates/Planning note template.md",
+    "Q1 2024/Content revamp for IFM and ARR.md",
+    "Q1 2024/Connect to supply.md",
+    "Q1 2024/Accreditations.md",
+    "Q1 2024/Pricing.md",
+    "Q1 2024/Project 7k.md",
+    "Templates",
+    "jkjjkki.md",
+    "create a link.md",
+    "When.md",
+    "Welcome.md",
+    "yoo.md",
+    "sxasxas.md",
+    "Q1 2024",
+    "Excalidraw/Drawing 2024-01-15 15.10.07.excalidraw.md",
+    "Excalidraw",
+    "obsidian.vimrc"
+  ]
+}
